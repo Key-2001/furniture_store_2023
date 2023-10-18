@@ -147,7 +147,13 @@ const Login = () => {
             >
               Sign up
             </span>
-            <span>Forgot password</span>
+            <span
+              onClick={() => {
+                navigate("/forgot-password", { replace: true });
+              }}
+            >
+              Forgot password
+            </span>
           </div>
         </div>
       </section>

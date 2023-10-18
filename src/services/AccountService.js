@@ -21,3 +21,7 @@ export const ChangePasswordAccountService = async (password) => {
     { headers: { Authorization: `Bearer ${token}` } }
   );
 };
+
+export const ForgotPasswordAccountService = async (data) => {
+  return await axios.post(`${APIEndpoint.USER_ENDPOINT}/send-mail`, data);
+};

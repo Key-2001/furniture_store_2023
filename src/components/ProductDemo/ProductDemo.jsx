@@ -41,7 +41,7 @@ const ProductDemo = () => {
             <article key={_id} className="featured">
               <div className="container">
                 <img src={images[0]} alt={name} />
-                <Link to={`/products/${_id}`} className="link">
+                <Link to={`/products/${_id}?name=${name}`} className="link">
                   <BiSearchAlt2 />
                 </Link>
               </div>

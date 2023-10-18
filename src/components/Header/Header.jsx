@@ -7,7 +7,7 @@ import { useCallback, useContext, useEffect, useRef } from "react";
 import { authContext } from "../../context/AuthContext";
 
 const Header = (props) => {
-  const {token} = useContext(authContext)
+  const { token } = useContext(authContext);
   const navigate = useNavigate();
   //! Props
   const { handleToggleShowSidebar } = props;

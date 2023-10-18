@@ -6,7 +6,10 @@ const initialState = {
     localStorage.getItem("user") !== undefined
       ? JSON.parse(localStorage.getItem("user"))
       : null,
-  token: localStorage.getItem("token") || null,
+  token:
+    localStorage.getItem("token") !== undefined
+      ? JSON.parse(localStorage.getItem("token"))
+      : null,
 };
 
 export const authContext = createContext(initialState);
@@ -25,10 +28,10 @@ const authReducer = (state, action) => {
         token: action.payload.token,
       };
     case "UPDATE_USER":
-      return{
+      return {
         ...state,
         user: action.payload.user,
-      }
+      };
     case "LOG_OUT":
       return {
         user: null,
@@ -44,7 +47,7 @@ export const AuthContextProvider = ({ children }) => {
 
   useEffect(() => {
     localStorage.setItem("user", JSON.stringify(state.user));
-    localStorage.setItem("token", state.token);
+    localStorage.setItem("token", JSON.stringify(state.token));
   }, [state]);
   return (
     <authContext.Provider

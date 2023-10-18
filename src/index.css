@@ -171,7 +171,7 @@ p {
   position: sticky;
   top: 0;
   left: 0;
-  z-index: 99999;
+  z-index: 99;
   box-shadow: 3px 3px -8px 3px #ddd;
   background: #fff;
 }
@@ -272,6 +272,8 @@ nav {
     border: unset;
     background-color: unset;
     cursor: pointer;
+    display: flex;
+    align-items: center;
   }
   .cart-container {
     display: flex;

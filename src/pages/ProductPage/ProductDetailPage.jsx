@@ -42,7 +42,7 @@ const ProductDetailPage = () => {
     refetch && refetch();
   }, []);
   //! Render
-  console.log("detailProduct", detailProduct);
+  console.log("sjandkjs", detailProduct, stockCurrent, amountProduct);
   return (
     <Fragment>
       <section className="title-section">

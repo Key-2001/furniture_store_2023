@@ -14,7 +14,6 @@ const ViewProductsPage = (props) => {
   //! Effect
 
   //! Render
-  console.log("snadkls", dataProducts);
   return (
     <Fragment>
       {isLoading && <Loading />}

@@ -91,7 +91,6 @@ const Signup = () => {
             onSubmit={handleSubmit}
           >
             {(helperFormik) => {
-              console.log("helperFormik", helperFormik);
               return (
                 <Form className="wrap-login-container-content-form">
                   <h3 className="wrap-login-container-content-form-title">

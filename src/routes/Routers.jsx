@@ -7,6 +7,8 @@ import Login from "../pages/AuthPage/LoginPage/Login";
 import Signup from "../pages/AuthPage/Signup/Signup";
 import ProtectedRoute from "./ProtectedRoute";
 import ProfilePage from "../pages/ProfilePage/ProfilePage";
+import ForgotPassword from "../pages/AuthPage/ForgotPassword/ForgotPassword";
+import CartPage from "../pages/CartPage/CartPage";
 
 const Routers = () => {
   return (
@@ -17,6 +19,8 @@ const Routers = () => {
       <Route path="/products/:id" element={<ProductDetailPage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
+      <Route path="/forgot-password" element={<ForgotPassword />} />
+      <Route path="/cart" element={<CartPage />} />
       <Route
         path="/user/me"
         element={

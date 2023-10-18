@@ -27,7 +27,6 @@ const ProductsPage = () => {
     {
       enabled: false,
       onSuccess: (response) => {
-        console.log("responseData", response);
         setDataProducts(response?.products);
       },
     }
@@ -35,7 +34,6 @@ const ProductsPage = () => {
   //! Function
   const handleChangeQuery = useCallback(
     (e) => {
-      console.log("hoatlaChange", e.target.name, e.target.value);
       setQuery((prev) => {
         return {
           ...prev,
