@@ -1,11 +1,12 @@
 /* eslint-disable react/prop-types */
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import logoImg from "../../assets/images/logo.svg";
 import { FaBars, FaShoppingCart, FaUser } from "react-icons/fa";
 import { BsFillPersonPlusFill } from "react-icons/bs";
-import { useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
 const Header = (props) => {
+  const navigate = useNavigate();
   //! Props
   const { handleToggleShowSidebar } = props;
   //! State
@@ -26,6 +27,9 @@ const Header = (props) => {
       }
     });
   };
+  const handleRedirect = useCallback(() => {
+    navigate("/login", { replace: true });
+  }, []);
   //! Effect
   useEffect(() => {
     handleStickyHeader();
@@ -88,7 +92,11 @@ const Header = (props) => {
                         }
                     })}> */}
           {true ? (
-            <button className="login-btn" type="button">
+            <button
+              className="login-btn"
+              type="button"
+              onClick={handleRedirect}
+            >
               login
               <BsFillPersonPlusFill className="icon-login" />
             </button>

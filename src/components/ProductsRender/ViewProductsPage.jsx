@@ -14,6 +14,7 @@ const ViewProductsPage = (props) => {
   //! Effect
 
   //! Render
+  console.log("snadkls", dataProducts);
   return (
     <Fragment>
       {isLoading && <Loading />}
@@ -37,7 +38,10 @@ const ViewProductsPage = (props) => {
                   <article key={id} className="featured">
                     <div className="container">
                       <img src={images[0]} alt={name} />
-                      <Link to={`/products/${id}`} className="link">
+                      <Link
+                        to={`/products/${id}?name=${name}`}
+                        className="link"
+                      >
                         <BiSearchAlt2 />
                       </Link>
                     </div>
@@ -56,7 +60,10 @@ const ViewProductsPage = (props) => {
                         <h4>{name}</h4>
                         <h5 style={{ textTransform: "unset" }}>${price}</h5>
                         <p>{text}...</p>
-                        <Link to={`/products/${id}`} className="btn">
+                        <Link
+                          to={`/products/${id}?name=${name}`}
+                          className="btn"
+                        >
                           details
                         </Link>
                       </div>

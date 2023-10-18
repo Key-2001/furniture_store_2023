@@ -42,7 +42,9 @@
 }
 
 /*Global Styles  */
-
+.text-primaryColor{
+  color: var(--clr-primary-3);
+}
 *,
 ::after,
 ::before {
