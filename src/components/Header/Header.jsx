@@ -3,9 +3,11 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import logoImg from "../../assets/images/logo.svg";
 import { FaBars, FaShoppingCart, FaUser } from "react-icons/fa";
 import { BsFillPersonPlusFill } from "react-icons/bs";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useContext, useEffect, useRef } from "react";
+import { authContext } from "../../context/AuthContext";
 
 const Header = (props) => {
+  const {token} = useContext(authContext)
   const navigate = useNavigate();
   //! Props
   const { handleToggleShowSidebar } = props;
@@ -91,7 +93,7 @@ const Header = (props) => {
                             isLogin: true,
                         }
                     })}> */}
-          {true ? (
+          {!token ? (
             <button
               className="login-btn"
               type="button"

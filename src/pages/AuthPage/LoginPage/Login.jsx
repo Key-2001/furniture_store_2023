@@ -1,4 +1,4 @@
-import { Fragment, useCallback, useState } from "react";
+import { Fragment, useCallback, useContext, useState } from "react";
 import { FastField, Form, Formik, ErrorMessage, Field } from "formik";
 import * as Yup from "yup";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
@@ -6,7 +6,10 @@ import "../Auth.scss";
 import { useNavigate } from "react-router-dom";
 import { useMutation } from "@tanstack/react-query";
 import { LoginAccountService } from "../../../services/AuthService";
+import { toast } from "react-toastify";
+import { authContext } from "../../../context/AuthContext";
 const Login = () => {
+  const { dispatch } = useContext(authContext);
   const navigate = useNavigate();
   //! Props
 
@@ -18,11 +21,28 @@ const Login = () => {
   //! Function
   const handleSubmit = useCallback(async (values) => {
     try {
+      dispatch({
+        type: "LOGIN_START",
+      });
       const response = await mutateLogin.mutateAsync(values);
+      const { success, message } = response;
+      if (!success) {
+        throw new Error(message);
+      }
+      dispatch({
+        type: "LOGIN_SUCCESS",
+        payload: {
+          user: response?.user,
+          token: response?.accessToken,
+        },
+      });
+      toast.success(message);
+      navigate("/", { replace: true });
     } catch (error) {
-      console.log('error', error);
+      console.log("error", error);
+      toast.error(error.message);
     }
-  },[])
+  }, []);
   //! Effect
 
   //! Render
@@ -63,9 +83,7 @@ const Login = () => {
             validateOnBlur={false}
             validateOnChange={false}
             validateOnMount={false}
-            onSubmit={(values, formikBag) => {
-              console.log("values", values, formikBag);
-            }}
+            onSubmit={handleSubmit}
           >
             {(helperFormik) => {
               return (

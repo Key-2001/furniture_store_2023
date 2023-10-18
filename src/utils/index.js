@@ -13,3 +13,5 @@ export const getTypeRender = () => {
     return true;
   }
 };
+
+export const token = localStorage.getItem("token");

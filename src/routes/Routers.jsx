@@ -5,6 +5,8 @@ import ProductsPage from "../pages/ProductPage/ProductsPage";
 import ProductDetailPage from "../pages/ProductPage/ProductDetailPage";
 import Login from "../pages/AuthPage/LoginPage/Login";
 import Signup from "../pages/AuthPage/Signup/Signup";
+import ProtectedRoute from "./ProtectedRoute";
+import ProfilePage from "../pages/ProfilePage/ProfilePage";
 
 const Routers = () => {
   return (
@@ -15,6 +17,14 @@ const Routers = () => {
       <Route path="/products/:id" element={<ProductDetailPage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/signup" element={<Signup />} />
+      <Route
+        path="/user/me"
+        element={
+          <ProtectedRoute>
+            <ProfilePage />
+          </ProtectedRoute>
+        }
+      />
     </Routes>
   );
 };
