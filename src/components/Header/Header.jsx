@@ -5,9 +5,11 @@ import { FaBars, FaShoppingCart, FaUser } from "react-icons/fa";
 import { BsFillPersonPlusFill } from "react-icons/bs";
 import { useCallback, useContext, useEffect, useRef } from "react";
 import { authContext } from "../../context/AuthContext";
+import { cartContext } from "../../context/CartContext";
 
 const Header = (props) => {
   const { token } = useContext(authContext);
+  const {products} = useContext(cartContext);
   const navigate = useNavigate();
   //! Props
   const { handleToggleShowSidebar } = props;
@@ -32,6 +34,18 @@ const Header = (props) => {
   const handleRedirect = useCallback(() => {
     navigate("/login", { replace: true });
   }, []);
+
+  const renderTotalAmountCartProducts = useCallback(() => {
+    const total = products?.reduce((result, current) => {
+      if(current.amount <= current.maxAmount){
+        return result + current.amount
+      }else{
+        return result + current.maxAmount
+      }
+    },0)
+
+    return products ? total : 0
+  },[products])
   //! Effect
   useEffect(() => {
     handleStickyHeader();
@@ -84,7 +98,7 @@ const Header = (props) => {
             cart
             <span className="cart-container">
               <FaShoppingCart />
-              <span className="cart-values">{0}</span>
+              <span className="cart-values">{renderTotalAmountCartProducts()}</span>
             </span>
           </Link>
           {/* <button className='login-btn' type='button' onClick={() => setIsFormLogin((prev) => {

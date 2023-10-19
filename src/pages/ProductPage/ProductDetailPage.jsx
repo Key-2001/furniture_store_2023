@@ -1,15 +1,18 @@
 import { useQuery } from "@tanstack/react-query";
-import React, { Fragment, useCallback, useEffect, useState } from "react";
+import { Fragment, useCallback, useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Loading from "../../components/Loader/Loading";
 import { GetDetailProductService } from "../../services/ProductService";
-import { BsCheck, BsStarFill, BsStarHalf, BsStar } from "react-icons/bs";
+import { BsCheck } from "react-icons/bs";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
+import { cartContext } from "../../context/CartContext";
+import { toast } from "react-toastify";
 
 const ProductDetailPage = () => {
   const { id } = useParams();
   const queryParams = new URLSearchParams(window.location.search);
   const nameProduct = queryParams.get("name");
+  const { dispatch } = useContext(cartContext);
   //! Props
 
   //! State
@@ -29,7 +32,32 @@ const ProductDetailPage = () => {
     }
   );
   //! Function
-  const handleClickAddCartItem = useCallback(() => {}, []);
+  const handleClickAddCartItem = useCallback(() => {
+    // INFO product cart
+    // id: `${id}_${stockCurrent._id}`,
+    // price: detailProduct.price,
+    // color: stockCurrent.color,
+    // amount: amountProduct,
+    // maxAmount: stockCurrent.amount,
+    // name: detailProduct.name,
+    // image: detailProduct.images[0],
+
+    dispatch({
+      type: "ADD_PRODUCT_TO_CART",
+      payload: {
+        product: {
+          id: `${id}_${stockCurrent._id}`,
+          price: detailProduct.price,
+          color: stockCurrent.color,
+          amount: amountProduct,
+          maxAmount: stockCurrent.amount,
+          name: detailProduct.name,
+          image: detailProduct.images[0],
+        },
+      },
+    });
+    toast.success("Add product successfully");
+  }, [stockCurrent, amountProduct, detailProduct]);
   const handleChangeColorStock = useCallback(
     (stockItem) => {
       setStockCurrent(stockItem);
@@ -42,7 +70,6 @@ const ProductDetailPage = () => {
     refetch && refetch();
   }, []);
   //! Render
-  console.log("sjandkjs", detailProduct, stockCurrent, amountProduct);
   return (
     <Fragment>
       <section className="title-section">
@@ -137,7 +164,7 @@ const ProductDetailPage = () => {
                     <span>colors:</span>
                     <div style={{ display: "flex" }}>
                       {detailProduct?.stock.map((el, index) => {
-                        const { amount, color } = el;
+                        const { color } = el;
                         return (
                           <button
                             key={index}
