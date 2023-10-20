@@ -1,4 +1,4 @@
-import React, { Fragment, useCallback, useContext, useState } from "react";
+import { Fragment, useCallback, useContext } from "react";
 import CartEmpty from "../../components/CartEmpty/CartEmpty";
 import { Link, useNavigate } from "react-router-dom";
 import { FastField, Form, Formik } from "formik";
@@ -6,26 +6,80 @@ import "./Cart.scss";
 import { cartContext } from "../../context/CartContext";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { MdOutlineRemoveShoppingCart } from "react-icons/md";
-
+import { useMutation } from "@tanstack/react-query";
+import { CheckDiscountService } from "../../services/DiscountService";
+import { toast } from "react-toastify";
+import { discountContext } from "../../context/DiscountContext";
+import { authContext } from "../../context/AuthContext";
 const CartPage = () => {
   const navigate = useNavigate();
+  const { token } = useContext(authContext);
   const { products, dispatch } = useContext(cartContext);
-  console.log("jsankdjsa", products);
+  const {
+    discountCode,
+    value: valueDiscount,
+    dispatch: dispatchDiscount,
+  } = useContext(discountContext);
   //! Props
 
   //! State
-
+  const mutateDiscount = useMutation({
+    mutationFn: (discount) => CheckDiscountService(discount),
+  });
   //! Function
   const handleClearCart = useCallback(() => {
     dispatch({ type: "CLEAR_CART" });
   }, []);
-  const handeSubmitDiscount = useCallback(() => {}, []);
+  const handleSubmitDiscount = useCallback(async (values) => {
+    try {
+      const response = await mutateDiscount.mutateAsync({
+        discountCode: values.discountCode,
+      });
+      console.log("djsand", response);
+      const { success, message } = response;
+      if (!success) {
+        throw new Error(message);
+      }
+      toast.success(message);
+      dispatchDiscount({
+        type: "ADD_DISCOUNT",
+        payload: {
+          discountCode: response?.discount.idDiscount,
+          value: response?.discount.valueDiscount,
+        },
+      });
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  }, []);
   const handleRemoveBtn = useCallback((id) => {
     dispatch({ type: "REMOVE_PRODUCT_IN_CART", payload: { id: id } });
   }, []);
   const handleChangeAmount = useCallback((id, type) => {
     dispatch({ type: "CHANGE_AMOUNT", payload: { id: id, type: type } });
   }, []);
+  const handleRenderSubtotalCart = useCallback(() => {
+    const subTotal = products.reduce((result, current) => {
+      if (current?.amount <= current.maxAmount) {
+        return result + current.amount * current.price;
+      } else {
+        return result + current.maxAmount * current.price;
+      }
+    }, 0);
+    return subTotal;
+  }, [products]);
+
+  const handleRenderTotalDiscount = useCallback(() => {
+    if (!discountCode) {
+      return 0;
+    } else {
+      if (valueDiscount?.includes("%")) {
+        const valueNumber = Number(valueDiscount?.split("%")[0]);
+        return ((handleRenderSubtotalCart() / 100) * valueNumber).toFixed(2);
+      }
+    }
+  }, [discountCode, valueDiscount]);
   //! Effect
 
   //! Render
@@ -133,29 +187,33 @@ const CartPage = () => {
           <div>
             <article>
               <h5>
-                subtotal : <span>${0}</span>
+                subtotal : <span>${handleRenderSubtotalCart()}</span>
               </h5>
               <p>
-                discount :{" "}
+                discount :
                 <span>
                   {/* {discountState?.discount &&
                   discountState?.discount?.amountUse > 0
                     ? discountState?.discount?.valueDiscount
                     : ""} */}
+                  ${handleRenderTotalDiscount()}
                 </span>
               </p>
               <hr />
               <h4>
-                order total : <span>${0}</span>
+                order total :{" "}
+                <span>
+                  ${handleRenderSubtotalCart() - handleRenderTotalDiscount()}
+                </span>
               </h4>
             </article>
             <Formik
               initialValues={{
-                discountCode: "",
+                discountCode: discountCode ? discountCode : "",
               }}
-              onSubmit={handeSubmitDiscount}
+              onSubmit={handleSubmitDiscount}
             >
-              {(helperFormik) => {
+              {() => {
                 return (
                   <Form className="form-discount">
                     <FastField
@@ -169,19 +227,28 @@ const CartPage = () => {
                 );
               }}
             </Formik>
-            {/* {isLoginUser ? (
-              <CheckoutDialog />
-            ) : ( */}
-            <button
-              type="button"
-              className="btn btn-checkout"
-              onClick={() => {
-                navigate("/login", { replace: true });
-              }}
-            >
-              login
-            </button>
-            {/* )} */}
+            {token ? (
+              <button
+                type="button"
+                className="btn btn-checkout"
+                style={{ paddingTop: "12px", paddingBottom: "12px" }}
+                onClick={() => {
+                  navigate("/checkout", { replace: true });
+                }}
+              >
+                checkout
+              </button>
+            ) : (
+              <button
+                type="button"
+                className="btn btn-checkout"
+                onClick={() => {
+                  navigate("/login", { replace: true });
+                }}
+              >
+                login
+              </button>
+            )}
           </div>
         </section>
       </section>

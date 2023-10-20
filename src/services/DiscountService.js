@@ -6,3 +6,7 @@ export const SendMailDiscountService = async (email) => {
     email: email,
   });
 };
+
+export const CheckDiscountService = async (discount) => {
+  return await axios.post(`${APIEndpoint.DISCOUNT_ENDPOINT}/code`, discount);
+};
