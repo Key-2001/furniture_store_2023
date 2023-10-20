@@ -39,6 +39,41 @@ const cartReducer = (state, action) => {
         products: [...state.products, action.payload.product],
       };
 
+    case "REMOVE_PRODUCT_IN_CART":
+      const products = state.products.filter(
+        (el) => el?.id !== action.payload.id
+      );
+      return {
+        products: products,
+      };
+    case "CHANGE_AMOUNT": 
+    if(action.payload.type === 'dec'){
+      const products = state.products.map(el => {
+        if(el?.id === action.payload.id){
+          return{
+            ...el,
+            amount: el?.amount - 1
+          }
+        }
+        return el
+      })
+      return {
+        products: products
+      }
+    }else{
+      const products = state.products.map(el => {
+        if(el?.id === action.payload.id){
+          return{
+            ...el,
+            amount: el?.amount + 1
+          }
+        }
+        return el
+      })
+      return {
+        products: products
+      }
+    }
     default:
       return state;
   }

@@ -1,20 +1,31 @@
-import React, { Fragment, useCallback, useContext } from "react";
+import React, { Fragment, useCallback, useContext, useState } from "react";
 import CartEmpty from "../../components/CartEmpty/CartEmpty";
 import { Link, useNavigate } from "react-router-dom";
 import { FastField, Form, Formik } from "formik";
 import "./Cart.scss";
 import { cartContext } from "../../context/CartContext";
+import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
+import { MdOutlineRemoveShoppingCart } from "react-icons/md";
+
 const CartPage = () => {
   const navigate = useNavigate();
-  const { products } = useContext(cartContext);
+  const { products, dispatch } = useContext(cartContext);
   console.log("jsankdjsa", products);
   //! Props
 
   //! State
 
   //! Function
-  const handleClearCart = useCallback(() => {}, []);
+  const handleClearCart = useCallback(() => {
+    dispatch({ type: "CLEAR_CART" });
+  }, []);
   const handeSubmitDiscount = useCallback(() => {}, []);
+  const handleRemoveBtn = useCallback((id) => {
+    dispatch({ type: "REMOVE_PRODUCT_IN_CART", payload: { id: id } });
+  }, []);
+  const handleChangeAmount = useCallback((id, type) => {
+    dispatch({ type: "CHANGE_AMOUNT", payload: { id: id, type: type } });
+  }, []);
   //! Effect
 
   //! Render
@@ -40,22 +51,12 @@ const CartPage = () => {
           <hr />
         </div>
         <div className="carts-content">
-          {/* {cartProducts.map((cart) => {
-            const {
-              id,
-              img,
-              name,
-              color,
-              price,
-              stock,
-              shipping,
-              amountCart,
-              maxQuantity,
-            } = cart;
+          {(products || []).map((cart) => {
+            const { id, amount, color, image, maxAmount, name, price } = cart;
             return (
-              <article key={`${id}-${color}`} className="cart-item">
+              <article key={`${id}`} className="cart-item">
                 <div className="img-title">
-                  <img src={img} alt={name} />
+                  <img src={image} alt={name} />
                   <div>
                     <h5 className="name-cart">{name}</h5>
                     <p className="color-cart">
@@ -66,7 +67,7 @@ const CartPage = () => {
                 </div>
                 <h5 className="price-cart">${price}</h5>
                 <div className="amounts-btn">
-                  {amountCart === 1 ? (
+                  {amount === 1 ? (
                     <button
                       disabled
                       style={{ cursor: "no-drop" }}
@@ -79,17 +80,13 @@ const CartPage = () => {
                     <button
                       type="button"
                       className="dec-btn"
-                      onClick={() =>
-                        dispatch(
-                          toggleAmountCartItem({ id, msg: "dec", color })
-                        )
-                      }
+                      onClick={() => handleChangeAmount(id, "dec")}
                     >
                       <AiOutlineMinus />
                     </button>
                   )}
-                  <h3>{amountCart}</h3>
-                  {amountCart === maxQuantity ? (
+                  <h3>{amount <= maxAmount ? amount : maxAmount}</h3>
+                  {amount >= maxAmount ? (
                     <button
                       disabled
                       type="button"
@@ -102,26 +99,22 @@ const CartPage = () => {
                     <button
                       type="button"
                       className="inc-btn"
-                      onClick={() =>
-                        dispatch(
-                          toggleAmountCartItem({ id, msg: "inc", color })
-                        )
-                      }
+                      onClick={() => handleChangeAmount(id, "inc")}
                     >
                       <AiOutlinePlus />
                     </button>
                   )}
                 </div>
-                <h5 className="subtotal">${price * amountCart}</h5>
+                <h5 className="subtotal">${price * amount}</h5>
                 <button
                   className="remove-btn"
-                  onClick={() => dispatch(removeCartItem({ id, color }))}
+                  onClick={() => handleRemoveBtn(id)}
                 >
                   <MdOutlineRemoveShoppingCart />
                 </button>
               </article>
             );
-          })} */}
+          })}
         </div>
         <hr />
         <div className="links-container">
