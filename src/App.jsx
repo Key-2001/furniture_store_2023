@@ -1,6 +1,6 @@
-import { Fragment, useState } from 'react'
+import { Fragment } from 'react'
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import Layout from './layout/Layout';
+import Routers from './routes/Routers';
 
 const queryClient = new QueryClient();
 
@@ -9,7 +9,7 @@ function App() {
   return (
     <Fragment>
       <QueryClientProvider client={queryClient}>
-        <Layout/>
+        <Routers/>
       </QueryClientProvider>
     </Fragment>
   )

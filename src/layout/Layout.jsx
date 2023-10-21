@@ -1,10 +1,10 @@
+/* eslint-disable react/prop-types */
 import { Fragment, useCallback, useState } from "react";
 import Header from "../components/Header/Header";
-import Routers from "../routes/Routers";
 import Footer from "../components/Footer/Footer";
 import Sidebar from "../components/Sidebar/Sidebar";
 
-const Layout = () => {
+const Layout = ({ children, isLayout }) => {
   //! State
   const [isShowSidebar, setIsShowSidebar] = useState(false);
   //! Function
@@ -15,12 +15,24 @@ const Layout = () => {
   //! Render
   return (
     <Fragment>
-      <Header handleToggleShowSidebar={handleToggleShowSidebar}/>
-      <Sidebar isShowSidebar={isShowSidebar} handleToggleShowSidebar={handleToggleShowSidebar}/>
+      {isLayout && (
+        <Fragment>
+          <Header handleToggleShowSidebar={handleToggleShowSidebar} />
+          <Sidebar
+            isShowSidebar={isShowSidebar}
+            handleToggleShowSidebar={handleToggleShowSidebar}
+          />
+        </Fragment>
+      )}
       <main>
-        <Routers />
+        {/* <Routers /> */}
+        {children}
       </main>
-      <Footer />
+      {isLayout && (
+        <Fragment>
+          <Footer />
+        </Fragment>
+      )}
     </Fragment>
   );
 };

@@ -11,6 +11,10 @@ import { CheckDiscountService } from "../../services/DiscountService";
 import { toast } from "react-toastify";
 import { discountContext } from "../../context/DiscountContext";
 import { authContext } from "../../context/AuthContext";
+import {
+  handleRenderSubtotalCart,
+  handleRenderTotalDiscount,
+} from "../../utils";
 const CartPage = () => {
   const navigate = useNavigate();
   const { token } = useContext(authContext);
@@ -59,27 +63,7 @@ const CartPage = () => {
   const handleChangeAmount = useCallback((id, type) => {
     dispatch({ type: "CHANGE_AMOUNT", payload: { id: id, type: type } });
   }, []);
-  const handleRenderSubtotalCart = useCallback(() => {
-    const subTotal = products.reduce((result, current) => {
-      if (current?.amount <= current.maxAmount) {
-        return result + current.amount * current.price;
-      } else {
-        return result + current.maxAmount * current.price;
-      }
-    }, 0);
-    return subTotal;
-  }, [products]);
 
-  const handleRenderTotalDiscount = useCallback(() => {
-    if (!discountCode) {
-      return 0;
-    } else {
-      if (valueDiscount?.includes("%")) {
-        const valueNumber = Number(valueDiscount?.split("%")[0]);
-        return ((handleRenderSubtotalCart() / 100) * valueNumber).toFixed(2);
-      }
-    }
-  }, [discountCode, valueDiscount]);
   //! Effect
 
   //! Render
@@ -187,7 +171,7 @@ const CartPage = () => {
           <div>
             <article>
               <h5>
-                subtotal : <span>${handleRenderSubtotalCart()}</span>
+                subtotal : <span>${handleRenderSubtotalCart(products)}</span>
               </h5>
               <p>
                 discount :
@@ -196,14 +180,25 @@ const CartPage = () => {
                   discountState?.discount?.amountUse > 0
                     ? discountState?.discount?.valueDiscount
                     : ""} */}
-                  ${handleRenderTotalDiscount()}
+                  $
+                  {handleRenderTotalDiscount(
+                    discountCode,
+                    valueDiscount,
+                    products
+                  )}
                 </span>
               </p>
               <hr />
               <h4>
                 order total :{" "}
                 <span>
-                  ${handleRenderSubtotalCart() - handleRenderTotalDiscount()}
+                  $
+                  {handleRenderSubtotalCart(products) -
+                    handleRenderTotalDiscount(
+                      discountCode,
+                      valueDiscount,
+                      products
+                    )}
                 </span>
               </h4>
             </article>

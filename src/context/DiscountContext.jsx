@@ -23,7 +23,6 @@ const discountReducer = (state, action) => {
 
 export const DiscountContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(discountReducer, initialState);
-  console.log("jnskads", state);
   return (
     <discountContext.Provider
       value={{ discountCode: state.discountCode, value: state.value, dispatch }}

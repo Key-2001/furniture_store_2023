@@ -15,3 +15,43 @@ export const getTypeRender = () => {
 };
 
 export const token = localStorage.getItem("token");
+
+export const handleRenderSubtotalCart = (products) => {
+  const subTotal = products.reduce((result, current) => {
+    if (current?.amount <= current.maxAmount) {
+      return result + current.amount * current.price;
+    } else {
+      return result + current.maxAmount * current.price;
+    }
+  }, 0);
+  return subTotal;
+};
+
+export const handleRenderTotalDiscount = (
+  discountCode,
+  valueDiscount,
+  products
+) => {
+  if (!discountCode) {
+    return 0;
+  } else {
+    if (valueDiscount?.includes("%")) {
+      const valueNumber = Number(valueDiscount?.split("%")[0]);
+      return ((handleRenderSubtotalCart(products) / 100) * valueNumber).toFixed(
+        2
+      );
+    }
+  }
+};
+
+export const renderTotalAmountCartProducts = (products) => {
+  const total = products?.reduce((result, current) => {
+    if (current.amount <= current.maxAmount) {
+      return result + current.amount;
+    } else {
+      return result + current.maxAmount;
+    }
+  }, 0);
+
+  return products ? total : 0;
+};
