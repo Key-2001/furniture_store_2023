@@ -11,6 +11,13 @@ import ForgotPassword from "../pages/AuthPage/ForgotPassword/ForgotPassword";
 import CartPage from "../pages/CartPage/CartPage";
 import CheckoutPage from "../pages/CheckoutPage/CheckoutPage";
 import Layout from "../layout/Layout";
+import LoginAdmin from "../pages/AuthPage/LoginPage/LoginAdmin";
+import LayoutAdmin from "../layout/LayoutAdmin";
+import Dashboard from "../pages/AdminPage/Dashboard/Dashboard";
+import Order from "../pages/AdminPage/Order/Order";
+import User from "../pages/AdminPage/User/User";
+import Product from "../pages/AdminPage/Product/Product";
+import NotExistedPage from "../pages/NotExistedPage/NotExistedPage";
 
 const Routers = () => {
   return (
@@ -99,6 +106,47 @@ const Routers = () => {
           </ProtectedRoute>
         }
       />
+      <Route
+        path="/admin/login"
+        element={
+          <Layout>
+            <LoginAdmin />
+          </Layout>
+        }
+      />
+      <Route
+        path="/admin/dashboard"
+        element={
+          <LayoutAdmin>
+            <Dashboard />
+          </LayoutAdmin>
+        }
+      />
+      <Route
+        path="/admin/product"
+        element={
+          <LayoutAdmin>
+            <Product />
+          </LayoutAdmin>
+        }
+      />
+      <Route
+        path="/admin/user"
+        element={
+          <LayoutAdmin>
+            <User />
+          </LayoutAdmin>
+        }
+      />
+      <Route
+        path="/admin/order"
+        element={
+          <LayoutAdmin>
+            <Order />
+          </LayoutAdmin>
+        }
+      />
+      <Route path="*" element={<NotExistedPage />} />
     </Routes>
   );
 };
