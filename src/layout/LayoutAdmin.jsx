@@ -1,19 +1,31 @@
 /* eslint-disable react/prop-types */
-import { useState } from "react";
+import { useCallback, useContext, useState } from "react";
 import {
+  LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
   UploadOutlined,
   UserOutlined,
   VideoCameraOutlined,
 } from "@ant-design/icons";
-import { Layout, Menu, Button, theme, ConfigProvider, Breadcrumb } from "antd";
+import {
+  Layout,
+  Menu,
+  Button,
+  theme,
+  ConfigProvider,
+  Breadcrumb,
+  Dropdown,
+  Space,
+} from "antd";
 const { Header, Sider, Content } = Layout;
 import logoUrl from "../assets/images/logo.svg";
 import { useNavigate } from "react-router-dom";
+import { adminContext } from "../context/AdminContext";
 
 const LayoutAdmin = ({ children }) => {
   const navigate = useNavigate();
+  const { admin, dispatch } = useContext(adminContext);
   //! Props
 
   //! State
@@ -22,11 +34,24 @@ const LayoutAdmin = ({ children }) => {
     token: { colorBgContainer },
   } = theme.useToken();
   const [menuKey, setMenuKey] = useState("dashboard");
-  //! Function
 
+  //! Function
+  const handleLogout = useCallback(() => {
+    dispatch({ type: "LOG_OUT" });
+  }, []);
   //! Effect
 
   //! Render
+  const items = [
+    {
+      key: "1",
+      label: (
+        <span onClick={handleLogout}>
+          Logout <LogoutOutlined />
+        </span>
+      ),
+    },
+  ];
   return (
     <ConfigProvider
       theme={{
@@ -100,22 +125,45 @@ const LayoutAdmin = ({ children }) => {
             <div
               style={{
                 display: "flex",
-                gap: "1rem",
                 alignItems: "center",
+                justifyContent: "space-between",
                 height: "100%",
               }}
             >
-              <Button
-                type="text"
-                icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-                onClick={() => setCollapsed(!collapsed)}
+              <div
                 style={{
-                  fontSize: "16px",
-                  width: 64,
-                  height: 64,
+                  display: "flex",
+                  gap: "1rem",
+                  alignItems: "center",
+                  height: "100%",
                 }}
-              />
-              <Breadcrumb items={[{ title: "dashboard" }]} />
+              >
+                <Button
+                  type="text"
+                  icon={
+                    collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />
+                  }
+                  onClick={() => setCollapsed(!collapsed)}
+                  style={{
+                    fontSize: "16px",
+                    width: 64,
+                    height: 64,
+                  }}
+                />
+                <Breadcrumb items={[{ title: "dashboard" }]} />
+              </div>
+              <Dropdown
+                menu={{
+                  items,
+                }}
+              >
+                <a
+                  onClick={(e) => e.preventDefault()}
+                  style={{ color: "#102a42" }}
+                >
+                  <Space style={{ width: "64px" }}>{admin.name}</Space>
+                </a>
+              </Dropdown>
             </div>
           </Header>
           <Content

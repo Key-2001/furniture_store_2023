@@ -18,6 +18,7 @@ import Order from "../pages/AdminPage/Order/Order";
 import User from "../pages/AdminPage/User/User";
 import Product from "../pages/AdminPage/Product/Product";
 import NotExistedPage from "../pages/NotExistedPage/NotExistedPage";
+import ProtectedRouteAdmin from "./ProtectedRouteAdmin";
 
 const Routers = () => {
   return (
@@ -117,33 +118,41 @@ const Routers = () => {
       <Route
         path="/admin/dashboard"
         element={
-          <LayoutAdmin>
-            <Dashboard />
-          </LayoutAdmin>
+          <ProtectedRouteAdmin>
+            <LayoutAdmin>
+              <Dashboard />
+            </LayoutAdmin>
+          </ProtectedRouteAdmin>
         }
       />
       <Route
         path="/admin/product"
         element={
-          <LayoutAdmin>
-            <Product />
-          </LayoutAdmin>
+          <ProtectedRouteAdmin>
+            <LayoutAdmin>
+              <Product />
+            </LayoutAdmin>
+          </ProtectedRouteAdmin>
         }
       />
       <Route
         path="/admin/user"
         element={
-          <LayoutAdmin>
-            <User />
-          </LayoutAdmin>
+          <ProtectedRouteAdmin>
+            <LayoutAdmin>
+              <User />
+            </LayoutAdmin>
+          </ProtectedRouteAdmin>
         }
       />
       <Route
         path="/admin/order"
         element={
-          <LayoutAdmin>
-            <Order />
-          </LayoutAdmin>
+          <ProtectedRouteAdmin>
+            <LayoutAdmin>
+              <Order />
+            </LayoutAdmin>
+          </ProtectedRouteAdmin>
         }
       />
       <Route path="*" element={<NotExistedPage />} />
