@@ -23,6 +23,8 @@ const authReducer = (state, action) => {
       };
 
     case "LOGIN_SUCCESS":
+      localStorage.setItem("user", JSON.stringify(action.payload.user));
+      localStorage.setItem("token", JSON.stringify(action.payload.token));
       return {
         user: action.payload.user,
         token: action.payload.token,

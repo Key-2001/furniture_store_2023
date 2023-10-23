@@ -2,12 +2,14 @@
 import { createContext, useEffect, useReducer } from "react";
 
 const initialState = {
-  admin: localStorage.getItem("admin") !== undefined
-  ? JSON.parse(localStorage.getItem("admin"))
-  : null,
-  tokenAdmin: localStorage.getItem("token-admin") !== undefined
-  ? JSON.parse(localStorage.getItem("token-admin"))
-  : null,
+  admin:
+    localStorage.getItem("admin") !== undefined
+      ? JSON.parse(localStorage.getItem("admin"))
+      : null,
+  tokenAdmin:
+    localStorage.getItem("token-admin") !== undefined
+      ? JSON.parse(localStorage.getItem("token-admin"))
+      : null,
 };
 
 export const adminContext = createContext(initialState);
@@ -20,6 +22,11 @@ const adminReducer = (state, action) => {
         tokenAdmin: null,
       };
     case "LOGIN_SUCCESS":
+      localStorage.setItem("admin", JSON.stringify(action.payload.admin));
+      localStorage.setItem(
+        "token-admin",
+        JSON.stringify(action.payload.tokenAdmin)
+      );
       return {
         admin: action.payload.admin,
         tokenAdmin: action.payload.tokenAdmin,

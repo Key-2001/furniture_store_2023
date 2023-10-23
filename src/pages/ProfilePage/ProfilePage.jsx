@@ -1,15 +1,14 @@
-import { Fragment, useCallback, useContext, useState } from "react";
+/* eslint-disable react/prop-types */
+import { Fragment, useCallback, useContext } from "react";
 import "./Profile.scss";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { authContext } from "../../context/AuthContext";
-import UserAccount from "../../components/UserAccount/UserAccount";
-import OrderAccount from "../../components/OrderAccount/OrderAccount";
-const ProfilePage = () => {
+const ProfilePage = ({ children }) => {
+  const navigate = useNavigate();
   const { dispatch, user } = useContext(authContext);
   //! Props
 
   //! State
-  const [isOrder, setIsOrder] = useState(false);
   //! Function
   const handleLogOutUser = useCallback(() => {
     dispatch({
@@ -32,22 +31,26 @@ const ProfilePage = () => {
                 <div
                   id="info"
                   className={`${
-                    !isOrder
+                    window.location.pathname === "/user/me"
                       ? "sidebar-account-item is-active"
                       : "sidebar-account-item"
                   }`}
-                  onClick={() => setIsOrder(false)}
+                  onClick={() => {
+                    navigate("/user/me", { replace: true });
+                  }}
                 >
                   Profile
                 </div>
                 <div
                   id="order"
                   className={`${
-                    isOrder
+                    window.location.pathname.includes("/user/order")
                       ? "sidebar-account-item is-active"
                       : "sidebar-account-item"
                   }`}
-                  onClick={() => setIsOrder(true)}
+                  onClick={() => {
+                    navigate("/user/order", { replace: true });
+                  }}
                 >
                   Orders
                 </div>
@@ -62,8 +65,7 @@ const ProfilePage = () => {
             </div>
           </div>
           <div className="content-account">
-            {!isOrder && <UserAccount />}
-            {isOrder && <OrderAccount />}
+            {children}
             {/* {!isOrder && (
               <UserInfo
                 name={name}

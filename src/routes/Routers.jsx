@@ -20,6 +20,9 @@ import Product from "../pages/AdminPage/Product/Product";
 import NotExistedPage from "../pages/NotExistedPage/NotExistedPage";
 import ProtectedRouteAdmin from "./ProtectedRouteAdmin";
 import CheckoutSuccess from "../components/CheckoutSuccess/CheckoutSuccess";
+import UserAccount from "../components/UserAccount/UserAccount";
+import OrderAccount from "../components/OrderAccount/OrderAccount";
+import OrderAccountDetail from "../components/OrderAccount/OrderAccountDetail/OrderAccountDetail";
 
 const Routers = () => {
   return (
@@ -103,7 +106,33 @@ const Routers = () => {
         element={
           <ProtectedRoute>
             <Layout isLayout={true}>
-              <ProfilePage />
+              <ProfilePage>
+                <UserAccount />
+              </ProfilePage>
+            </Layout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/user/order"
+        element={
+          <ProtectedRoute>
+            <Layout isLayout={true}>
+              <ProfilePage>
+                <OrderAccount />
+              </ProfilePage>
+            </Layout>
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/user/order/:id"
+        element={
+          <ProtectedRoute>
+            <Layout isLayout={true}>
+              <ProfilePage>
+                <OrderAccountDetail />
+              </ProfilePage>
             </Layout>
           </ProtectedRoute>
         }

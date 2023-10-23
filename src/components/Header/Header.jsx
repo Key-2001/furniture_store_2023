@@ -10,7 +10,7 @@ import { renderTotalAmountCartProducts } from "../../utils";
 
 const Header = (props) => {
   const { token } = useContext(authContext);
-  const {products} = useContext(cartContext);
+  const { products } = useContext(cartContext);
   const navigate = useNavigate();
   //! Props
   const { handleToggleShowSidebar } = props;
@@ -26,9 +26,13 @@ const Header = (props) => {
         document.body.scrollTop > 80 ||
         document.documentElement.scrollTop > 80
       ) {
-        headerRef.current.classList.add("sticky__header");
+        if (headerRef.current) {
+          headerRef.current.classList.add("sticky__header");
+        }
       } else {
-        headerRef.current.classList.remove("sticky__header");
+        if (headerRef.current) {
+          headerRef.current.classList.remove("sticky__header");
+        }
       }
     });
   };
@@ -88,7 +92,9 @@ const Header = (props) => {
             cart
             <span className="cart-container">
               <FaShoppingCart />
-              <span className="cart-values">{renderTotalAmountCartProducts(products)}</span>
+              <span className="cart-values">
+                {renderTotalAmountCartProducts(products)}
+              </span>
             </span>
           </Link>
           {/* <button className='login-btn' type='button' onClick={() => setIsFormLogin((prev) => {

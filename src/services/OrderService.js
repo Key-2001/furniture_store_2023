@@ -17,3 +17,9 @@ export const GetAllOrderUserService = async (query) => {
     params: query,
   });
 };
+
+export const GetOrderUserDetailService = async (id) => {
+  return await axios.get(`${ApiEndpoint.ORDER_ENDPOINT}/${id}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
