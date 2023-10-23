@@ -12,7 +12,6 @@ import {
   Layout,
   Menu,
   Button,
-  theme,
   ConfigProvider,
   Breadcrumb,
   Dropdown,
@@ -30,10 +29,9 @@ const LayoutAdmin = ({ children }) => {
 
   //! State
   const [collapsed, setCollapsed] = useState(false);
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
-  const [menuKey, setMenuKey] = useState("dashboard");
+  const [menuKey, setMenuKey] = useState(
+    window.location.pathname.split("/")[2] ?? "dashboard"
+  );
 
   //! Function
   const handleLogout = useCallback(() => {
@@ -169,9 +167,7 @@ const LayoutAdmin = ({ children }) => {
           <Content
             style={{
               margin: "24px 16px",
-              padding: 24,
               minHeight: 280,
-              background: colorBgContainer,
             }}
           >
             {children}

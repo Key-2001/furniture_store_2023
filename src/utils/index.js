@@ -14,7 +14,8 @@ export const getTypeRender = () => {
   }
 };
 
-export const token = localStorage.getItem("token");
+export const token = JSON.parse(localStorage.getItem("token"));
+export const tokenAdmin = JSON.parse(localStorage.getItem("token-admin"));
 
 export const handleRenderSubtotalCart = (products) => {
   const subTotal = products.reduce((result, current) => {
