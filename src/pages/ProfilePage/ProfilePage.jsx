@@ -3,6 +3,7 @@ import "./Profile.scss";
 import { Link } from "react-router-dom";
 import { authContext } from "../../context/AuthContext";
 import UserAccount from "../../components/UserAccount/UserAccount";
+import OrderAccount from "../../components/OrderAccount/OrderAccount";
 const ProfilePage = () => {
   const { dispatch, user } = useContext(authContext);
   //! Props
@@ -62,6 +63,7 @@ const ProfilePage = () => {
           </div>
           <div className="content-account">
             {!isOrder && <UserAccount />}
+            {isOrder && <OrderAccount />}
             {/* {!isOrder && (
               <UserInfo
                 name={name}

@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useContext } from "react";
 import { cartContext } from "../../context/CartContext";
 import { discountContext } from "../../context/DiscountContext";
@@ -6,12 +7,13 @@ import {
   handleRenderTotalDiscount,
 } from "../../utils";
 import { colorsList } from "../../constants";
+import HashLoader from "react-spinners/HashLoader";
 
-const ProductCheckout = () => {
+const ProductCheckout = (props) => {
   const { products } = useContext(cartContext);
   const { discountCode, value: valueDiscount } = useContext(discountContext);
   //! Props
-
+  const { isLoading } = props;
   //! State
 
   //! Function
@@ -84,7 +86,7 @@ const ProductCheckout = () => {
             style={{ padding: "14px", borderRadius: "4px", marginTop: "12px" }}
             type="submit"
           >
-            Pay now
+            {isLoading ? <HashLoader size={28} color="#f1f5f8" /> : "Pay now"}
           </button>
         </div>
       </div>

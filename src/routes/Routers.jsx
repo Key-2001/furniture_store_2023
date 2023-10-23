@@ -19,6 +19,7 @@ import User from "../pages/AdminPage/User/User";
 import Product from "../pages/AdminPage/Product/Product";
 import NotExistedPage from "../pages/NotExistedPage/NotExistedPage";
 import ProtectedRouteAdmin from "./ProtectedRouteAdmin";
+import CheckoutSuccess from "../components/CheckoutSuccess/CheckoutSuccess";
 
 const Routers = () => {
   return (
@@ -105,6 +106,14 @@ const Routers = () => {
               <ProfilePage />
             </Layout>
           </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/checkout/success/:id"
+        element={
+          <Layout>
+            <CheckoutSuccess />
+          </Layout>
         }
       />
       <Route

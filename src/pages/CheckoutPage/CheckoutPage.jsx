@@ -1,19 +1,59 @@
-import { Fragment, useCallback } from "react";
+import { Fragment, useCallback, useContext } from "react";
 import "./CheckoutPage.scss";
 import HeaderCart from "../../components/Header/HeaderCart";
 import FormCheckout from "../../components/FormCheckout/FormCheckout";
 import ProductCheckout from "../../components/ProductCheckout/ProductCheckout";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
+import { cartContext } from "../../context/CartContext";
+import { discountContext } from "../../context/DiscountContext";
+import { useMutation } from "@tanstack/react-query";
+import { CheckoutOrderService } from "../../services/OrderService";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const CheckoutPage = () => {
+  const navigate = useNavigate();
+  const { products, dispatch } = useContext(cartContext);
+  const { discountCode, value: valueDiscount } = useContext(discountContext);
   //! Props
 
   //! State
-
+  const mutateCheckout = useMutation({
+    mutationFn: (data) => CheckoutOrderService(data),
+  });
   //! Function
-  const handleSubmit = useCallback((values) => {
-    console.log("responseDataSubmit", values);
+  const handleSubmit = useCallback(async (values) => {
+    console.log(
+      "responseDataSubmit",
+      values,
+      products,
+      discountCode,
+      valueDiscount
+    );
+    const formData = new FormData();
+    formData.append("email", values.email);
+    formData.append("name", values.name);
+    formData.append("phoneNumber", values.phoneNumber);
+    formData.append("address", values.address);
+    formData.append("note", values.note);
+    formData.append("paymentMethod", values.paymentMethod);
+    formData.append("discountCode", discountCode ? discountCode : "");
+    formData.append("valueDiscount", valueDiscount);
+    formData.append("products", JSON.stringify(products));
+    try {
+      const response = await mutateCheckout.mutateAsync(formData);
+      console.log("response", response);
+      const { success, message } = response;
+      if (!success) {
+        throw new Error(message);
+      }
+      dispatch({ type: "CLEAR_CART" });
+      navigate(`/checkout/success/${response.order._id}`);
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
   }, []);
   //! Effect
 
@@ -54,7 +94,7 @@ const CheckoutPage = () => {
             return (
               <Form>
                 <FormCheckout helperFormik={helperFormik} />
-                <ProductCheckout />
+                <ProductCheckout isLoading={mutateCheckout.isLoading}/>
               </Form>
             );
           }}
