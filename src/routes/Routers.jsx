@@ -23,6 +23,7 @@ import CheckoutSuccess from "../components/CheckoutSuccess/CheckoutSuccess";
 import UserAccount from "../components/UserAccount/UserAccount";
 import OrderAccount from "../components/OrderAccount/OrderAccount";
 import OrderAccountDetail from "../components/OrderAccount/OrderAccountDetail/OrderAccountDetail";
+import ProductForm from "../pages/AdminPage/Product/ProductForm/ProductForm";
 
 const Routers = () => {
   return (
@@ -169,6 +170,16 @@ const Routers = () => {
           <ProtectedRouteAdmin>
             <LayoutAdmin>
               <Product />
+            </LayoutAdmin>
+          </ProtectedRouteAdmin>
+        }
+      />
+      <Route
+        path="/admin/product/create"
+        element={
+          <ProtectedRouteAdmin>
+            <LayoutAdmin>
+              <ProductForm />
             </LayoutAdmin>
           </ProtectedRouteAdmin>
         }

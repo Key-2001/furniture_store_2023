@@ -1,11 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import HeaderTable from "../../../common/HeaderTable";
 import Paper from "../../../common/Paper";
-import { GetUserAdminService } from "../../../services/AdminService";
+import { adminContext } from "../../../context/AdminContext";
+import { GetOrderAdminService } from "../../../services/AdminService";
 import OrderList from "./OrderList/OrderList";
 
 const Order = () => {
+  const { dispatch } = useContext(adminContext);
   //! Props
 
   //! State
@@ -14,31 +16,43 @@ const Order = () => {
     email: "",
     page: 1,
     totalPage: 1,
+    phoneNumber: "",
   });
 
   const { isLoading, isFetching, refetch } = useQuery(
     ["user-list"],
-    () => GetUserAdminService({ email: query.email, page: query.page }),
+    () =>
+      GetOrderAdminService({
+        email: query.email,
+        page: query.page,
+        phoneNumber: "",
+      }),
     {
       enabled: false,
       onSuccess: (response) => {
         console.log("responseUser", response);
-        const { data, page } = response;
-        setQuery((prev) => {
-          return {
-            ...prev,
-            page: Number(page.currentPage),
-            totalPage: Number(page.totalPage),
-          };
-        });
-        setData(data);
+        const { data, page, success } = response;
+        if (success) {
+          setQuery((prev) => {
+            return {
+              ...prev,
+              page: Number(page.currentPage),
+              totalPage: Number(page.totalPage),
+            };
+          });
+          setData(data);
+        } else {
+          if (response?.statusCode === 404) {
+            dispatch({ type: "LOG_OUT" });
+          }
+        }
       },
     }
   );
   //! Function
   useEffect(() => {
     refetch && refetch();
-  }, []);
+  }, [query.page, query.email, query.phoneNumber]);
   //! Effect
 
   //! Render

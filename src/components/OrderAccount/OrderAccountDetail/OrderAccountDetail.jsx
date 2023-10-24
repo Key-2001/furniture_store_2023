@@ -1,14 +1,16 @@
 import { useQuery } from "@tanstack/react-query";
 import { Button, Card, Flex } from "antd";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import HashLoader from "react-spinners/HashLoader";
 import { colorsList } from "../../../constants";
 import { GetOrderUserDetailService } from "../../../services/OrderService";
 import "./OrderAccountDetail.scss";
 import { RollbackOutlined } from "@ant-design/icons";
+import { authContext } from "../../../context/AuthContext";
 
 const OrderAccountDetail = () => {
+  const { dispatch } = useContext(authContext);
   const navigate = useNavigate();
   const { id } = useParams();
   //! Props
@@ -25,6 +27,10 @@ const OrderAccountDetail = () => {
         const { success, data } = response;
         if (success) {
           setData(data);
+        } else {
+          if (response?.statusCode == 404) {
+            dispatch({ type: "LOG_OUT" });
+          }
         }
       },
     }

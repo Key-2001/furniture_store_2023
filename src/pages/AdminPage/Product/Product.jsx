@@ -5,7 +5,9 @@ import Paper from "../../../common/Paper";
 import ProductList from "./ProductList/ProductList";
 import HeaderTable from "../../../common/HeaderTable";
 import { adminContext } from "../../../context/AdminContext";
+import { useNavigate } from "react-router-dom";
 const Product = () => {
+  const navigate = useNavigate();
   const { dispatch } = useContext(adminContext);
   //! Props
 
@@ -51,7 +53,14 @@ const Product = () => {
   //! Render
   return (
     <Fragment>
-      <HeaderTable isCreate={true} isDelete={true} onRefetch={refetch} />
+      <HeaderTable
+        isCreate={true}
+        isDelete={true}
+        onRefetch={refetch}
+        onCreate={() => {
+          navigate("/admin/product/create", { replace: true });
+        }}
+      />
       <Paper>
         <ProductList
           isLoading={isLoading || isFetching}

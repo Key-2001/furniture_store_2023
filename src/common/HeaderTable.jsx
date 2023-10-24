@@ -5,7 +5,7 @@ import Paper from "./Paper";
 
 const HeaderTable = (props) => {
   //! Props
-  const { isCreate, isDelete, onRefetch } = props;
+  const { isCreate, isDelete, onRefetch, onCreate } = props;
 
   //! State
 
@@ -23,7 +23,7 @@ const HeaderTable = (props) => {
           </Button>
         )}
         {isCreate && (
-          <Button type="primary" icon={<PlusOutlined />}>
+          <Button type="primary" icon={<PlusOutlined />} onClick={onCreate}>
             Create
           </Button>
         )}

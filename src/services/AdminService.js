@@ -19,3 +19,10 @@ export const GetUserAdminService = async (query) => {
     params: query,
   });
 };
+
+export const GetOrderAdminService = async (query) => {
+  return await axios.get(`${ApiEndpoint.ADMIN_ENDPOINT}/order`, {
+    headers: { Authorization: `Bearer ${tokenAdmin}` },
+    params: query,
+  });
+};

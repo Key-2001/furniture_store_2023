@@ -70,7 +70,7 @@ const OrderAccountList = (props) => {
       <Table
         rowKey={"_id"}
         bordered
-        key={"product-list"}
+        key={"order-list"}
         columns={columns}
         dataSource={data}
         loading={isLoading}
