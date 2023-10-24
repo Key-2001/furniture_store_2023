@@ -8,7 +8,7 @@ import { adminContext } from "../../../context/AdminContext";
 import { useNavigate } from "react-router-dom";
 const Product = () => {
   const navigate = useNavigate();
-  const { dispatch } = useContext(adminContext);
+  const { dispatch, tokenAdmin } = useContext(adminContext);
   //! Props
 
   //! State
@@ -21,7 +21,7 @@ const Product = () => {
   const [data, setData] = useState([]);
   const { isLoading, isFetching, refetch } = useQuery(
     ["list-product"],
-    () => GetProductAdminService({ name: query.name, page: query.page }),
+    () => GetProductAdminService({ name: query.name, page: query.page }, tokenAdmin),
     {
       enabled: false,
       onSuccess: (response) => {
@@ -54,6 +54,7 @@ const Product = () => {
   return (
     <Fragment>
       <HeaderTable
+        title="Product list"
         isCreate={true}
         isDelete={true}
         onRefetch={refetch}

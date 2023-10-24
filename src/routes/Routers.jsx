@@ -24,6 +24,7 @@ import UserAccount from "../components/UserAccount/UserAccount";
 import OrderAccount from "../components/OrderAccount/OrderAccount";
 import OrderAccountDetail from "../components/OrderAccount/OrderAccountDetail/OrderAccountDetail";
 import ProductForm from "../pages/AdminPage/Product/ProductForm/ProductForm";
+import Analytic from "../pages/AdminPage/Analytic/Analytic";
 
 const Routers = () => {
   return (
@@ -160,6 +161,16 @@ const Routers = () => {
           <ProtectedRouteAdmin>
             <LayoutAdmin>
               <Dashboard />
+            </LayoutAdmin>
+          </ProtectedRouteAdmin>
+        }
+      />
+      <Route
+        path="/admin/analytic"
+        element={
+          <ProtectedRouteAdmin>
+            <LayoutAdmin>
+              <Analytic />
             </LayoutAdmin>
           </ProtectedRouteAdmin>
         }

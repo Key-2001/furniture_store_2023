@@ -1,12 +1,14 @@
 /* eslint-disable react/prop-types */
 import { useCallback, useContext, useState } from "react";
 import {
+  DatabaseOutlined,
+  HomeOutlined,
+  LineChartOutlined,
   LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  UploadOutlined,
+  ShoppingCartOutlined,
   UserOutlined,
-  VideoCameraOutlined,
 } from "@ant-design/icons";
 import {
   Layout,
@@ -76,7 +78,7 @@ const LayoutAdmin = ({ children }) => {
             items={[
               {
                 key: "dashboard",
-                icon: <UserOutlined />,
+                icon: <HomeOutlined />,
                 label: "Dashboard",
                 onClick: () => {
                   setMenuKey("dashboard");
@@ -84,8 +86,17 @@ const LayoutAdmin = ({ children }) => {
                 },
               },
               {
+                key: "analytic",
+                icon: <LineChartOutlined />,
+                label: "Analytic",
+                onClick: () => {
+                  setMenuKey("analytic");
+                  navigate("/admin/analytic", { replace: true });
+                },
+              },
+              {
                 key: "product",
-                icon: <VideoCameraOutlined />,
+                icon: <DatabaseOutlined />,
                 label: "Product",
                 onClick: () => {
                   setMenuKey("product");
@@ -94,7 +105,7 @@ const LayoutAdmin = ({ children }) => {
               },
               {
                 key: "order",
-                icon: <UploadOutlined />,
+                icon: <ShoppingCartOutlined />,
                 label: "Order",
                 onClick: () => {
                   setMenuKey("order");

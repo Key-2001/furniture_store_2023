@@ -11,16 +11,18 @@ import { useMutation } from "@tanstack/react-query";
 import { CheckoutOrderService } from "../../services/OrderService";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { authContext } from "../../context/AuthContext";
 
 const CheckoutPage = () => {
   const navigate = useNavigate();
+  const { token } = useContext(authContext);
   const { products, dispatch } = useContext(cartContext);
   const { discountCode, value: valueDiscount } = useContext(discountContext);
   //! Props
 
   //! State
   const mutateCheckout = useMutation({
-    mutationFn: (data) => CheckoutOrderService(data),
+    mutationFn: (data) => CheckoutOrderService(data, token),
   });
   //! Function
   const handleSubmit = useCallback(async (values) => {
@@ -94,7 +96,7 @@ const CheckoutPage = () => {
             return (
               <Form>
                 <FormCheckout helperFormik={helperFormik} />
-                <ProductCheckout isLoading={mutateCheckout.isLoading}/>
+                <ProductCheckout isLoading={mutateCheckout.isLoading} />
               </Form>
             );
           }}

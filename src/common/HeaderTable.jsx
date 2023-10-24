@@ -5,7 +5,7 @@ import Paper from "./Paper";
 
 const HeaderTable = (props) => {
   //! Props
-  const { isCreate, isDelete, onRefetch, onCreate } = props;
+  const { isCreate, isDelete, onRefetch, onCreate, title } = props;
 
   //! State
 
@@ -16,18 +16,21 @@ const HeaderTable = (props) => {
   //! Render
   return (
     <Paper style={{ marginBottom: "12px" }}>
-      <Flex justify={"flex-end"} align="center" gap={"middle"}>
-        {isDelete && (
-          <Button danger icon={<DeleteOutlined />}>
-            Delete
-          </Button>
-        )}
-        {isCreate && (
-          <Button type="primary" icon={<PlusOutlined />} onClick={onCreate}>
-            Create
-          </Button>
-        )}
-        <Button icon={<RedoOutlined />} onClick={onRefetch} />
+      <Flex justify={"space-between"} align="center">
+        <h4 style={{ marginBottom: 0 }}>{title}</h4>
+        <Flex align="center" justify="flex-end" gap={"middle"}>
+          {isDelete && (
+            <Button danger icon={<DeleteOutlined />}>
+              Delete
+            </Button>
+          )}
+          {isCreate && (
+            <Button type="primary" icon={<PlusOutlined />} onClick={onCreate}>
+              Create
+            </Button>
+          )}
+          <Button icon={<RedoOutlined />} onClick={onRefetch} />
+        </Flex>
       </Flex>
     </Paper>
   );

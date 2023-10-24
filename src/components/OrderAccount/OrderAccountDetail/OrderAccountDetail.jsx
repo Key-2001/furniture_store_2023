@@ -10,7 +10,7 @@ import { RollbackOutlined } from "@ant-design/icons";
 import { authContext } from "../../../context/AuthContext";
 
 const OrderAccountDetail = () => {
-  const { dispatch } = useContext(authContext);
+  const { dispatch, token } = useContext(authContext);
   const navigate = useNavigate();
   const { id } = useParams();
   //! Props
@@ -19,7 +19,7 @@ const OrderAccountDetail = () => {
   const [data, setData] = useState({});
   const { isLoading, isFetching, refetch } = useQuery(
     ["order-detail"],
-    () => GetOrderUserDetailService(id),
+    () => GetOrderUserDetailService(id, token),
     {
       enabled: false,
       onSuccess: (response) => {

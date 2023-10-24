@@ -7,7 +7,7 @@ import { GetOrderAdminService } from "../../../services/AdminService";
 import OrderList from "./OrderList/OrderList";
 
 const Order = () => {
-  const { dispatch } = useContext(adminContext);
+  const { dispatch, tokenAdmin } = useContext(adminContext);
   //! Props
 
   //! State
@@ -22,11 +22,14 @@ const Order = () => {
   const { isLoading, isFetching, refetch } = useQuery(
     ["user-list"],
     () =>
-      GetOrderAdminService({
-        email: query.email,
-        page: query.page,
-        phoneNumber: "",
-      }),
+      GetOrderAdminService(
+        {
+          email: query.email,
+          page: query.page,
+          phoneNumber: "",
+        },
+        tokenAdmin
+      ),
     {
       enabled: false,
       onSuccess: (response) => {
@@ -58,7 +61,7 @@ const Order = () => {
   //! Render
   return (
     <Fragment>
-      <HeaderTable onRefetch={refetch} />
+      <HeaderTable onRefetch={refetch} title="Order list" />
       <Paper>
         <OrderList
           isLoading={isLoading || isFetching}

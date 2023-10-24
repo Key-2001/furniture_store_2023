@@ -1,28 +1,27 @@
 import axios from "./axios";
 import * as ApiEndpoint from "./ApiEndpoint";
-import { tokenAdmin } from "../utils";
 
 export const LoginAdminService = async (data) => {
   return await axios.post(`${ApiEndpoint.ADMIN_ENDPOINT}/login`, data);
 };
 
-export const GetProductAdminService = async (query) => {
+export const GetProductAdminService = async (query, token) => {
   return await axios.get(`${ApiEndpoint.ADMIN_ENDPOINT}/product`, {
-    headers: { Authorization: `Bearer ${tokenAdmin}` },
+    headers: { Authorization: `Bearer ${token}` },
     params: query,
   });
 };
 
-export const GetUserAdminService = async (query) => {
+export const GetUserAdminService = async (query, token) => {
   return await axios.get(`${ApiEndpoint.ADMIN_ENDPOINT}/user`, {
-    headers: { Authorization: `Bearer ${tokenAdmin}` },
+    headers: { Authorization: `Bearer ${token}` },
     params: query,
   });
 };
 
-export const GetOrderAdminService = async (query) => {
+export const GetOrderAdminService = async (query, token) => {
   return await axios.get(`${ApiEndpoint.ADMIN_ENDPOINT}/order`, {
-    headers: { Authorization: `Bearer ${tokenAdmin}` },
+    headers: { Authorization: `Bearer ${token}` },
     params: query,
   });
 };

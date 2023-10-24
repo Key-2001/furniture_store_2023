@@ -1,11 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import HeaderTable from "../../../common/HeaderTable";
 import Paper from "../../../common/Paper";
 import { GetUserAdminService } from "../../../services/AdminService";
 import UserList from "./UserList/UserList";
+import { adminContext } from "../../../context/AdminContext";
 
 const User = () => {
+  const {tokenAdmin} = useContext(adminContext)
   //! Props
 
   //! State
@@ -18,7 +20,7 @@ const User = () => {
 
   const { isLoading, isFetching, refetch } = useQuery(
     ["user-list"],
-    () => GetUserAdminService({ email: query.email, page: query.page }),
+    () => GetUserAdminService({ email: query.email, page: query.page }, tokenAdmin),
     {
       enabled: false,
       onSuccess: (response) => {
@@ -44,7 +46,7 @@ const User = () => {
   //! Render
   return (
     <Fragment>
-      <HeaderTable onRefetch={refetch} />
+      <HeaderTable onRefetch={refetch} title="User list" />
       <Paper>
         <UserList
           isLoading={isLoading || isFetching}

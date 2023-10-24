@@ -1,8 +1,6 @@
 import axios from "./axios";
 import * as ApiEndpoint from "./ApiEndpoint";
-import { token } from "../utils";
-
-export const CheckoutOrderService = async (data) => {
+export const CheckoutOrderService = async (data, token) => {
   return await axios.post(`${ApiEndpoint.ORDER_ENDPOINT}`, data, {
     headers: {
       Authorization: `Bearer ${token}`,
@@ -11,14 +9,14 @@ export const CheckoutOrderService = async (data) => {
   });
 };
 
-export const GetAllOrderUserService = async (query) => {
+export const GetAllOrderUserService = async (query, token) => {
   return await axios.get(`${ApiEndpoint.ORDER_ENDPOINT}`, {
     headers: { Authorization: `Bearer ${token}` },
     params: query,
   });
 };
 
-export const GetOrderUserDetailService = async (id) => {
+export const GetOrderUserDetailService = async (id, token) => {
   return await axios.get(`${ApiEndpoint.ORDER_ENDPOINT}/${id}`, {
     headers: { Authorization: `Bearer ${token}` },
   });
