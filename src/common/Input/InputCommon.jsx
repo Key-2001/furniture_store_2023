@@ -4,7 +4,7 @@ import { Fragment } from "react";
 const { TextArea } = Input;
 const InputCommon = (props) => {
   //! Props
-  const { field, form, title, placeholder, style, type, isTextArea } = props;
+  const { field, form, title, placeholder, style, type, isTextArea, prefix } = props;
   //! State
   const name = field?.name;
   const valueInput = field?.value;
@@ -57,6 +57,7 @@ const InputCommon = (props) => {
         value={valueInput}
         status={error && touched ? "error" : null}
         onChange={handleChange}
+        prefix={prefix ?? null}
       />
       {error && <span className="err-text">{error}</span>}
     </Fragment>

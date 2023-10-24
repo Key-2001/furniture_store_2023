@@ -6,7 +6,14 @@ import Highlighter from "react-highlight-words";
 
 const ProductList = (props) => {
   //! Props
-  const { query, isLoading, data, setQuery } = props;
+  const {
+    query,
+    isLoading,
+    data,
+    setQuery,
+    selectedRowKeys,
+    setSelectedRowKeys,
+  } = props;
   //! State
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
@@ -120,7 +127,6 @@ const ProductList = (props) => {
         text
       ),
   });
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const columns = [
     {
       title: "Name",
