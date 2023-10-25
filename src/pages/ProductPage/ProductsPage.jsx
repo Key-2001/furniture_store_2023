@@ -17,7 +17,7 @@ const ProductsPage = () => {
     category: "",
     company: "",
     color: "",
-    price: 500,
+    price: 3000000,
     sort: getSortType(),
   });
   const [dataProducts, setDataProducts] = useState([]);
@@ -51,7 +51,7 @@ const ProductsPage = () => {
         category: "",
         company: "",
         color: "",
-        price: 500,
+        price: 3000000,
         sort: getSortType(),
       };
     });
@@ -88,7 +88,7 @@ const ProductsPage = () => {
             query={query}
             isTypeRender={isTypeRender}
             dataProducts={dataProducts}
-            isLoading={isLoading && isFetching}
+            isLoading={isLoading || isFetching}
           />
         </div>
       </section>

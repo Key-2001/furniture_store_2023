@@ -8,6 +8,7 @@ import { GetOrderUserDetailService } from "../../../services/OrderService";
 import "./OrderAccountDetail.scss";
 import { RollbackOutlined } from "@ant-design/icons";
 import { authContext } from "../../../context/AuthContext";
+import { formatCurrency } from "../../../utils";
 
 const OrderAccountDetail = () => {
   const { dispatch, token } = useContext(authContext);
@@ -118,7 +119,7 @@ const OrderAccountDetail = () => {
                     <div className="product-info">
                       <span style={{ fontWeight: 500 }}>{el?.name}</span>
                       <span style={{ color: "#d9d9d9" }}>
-                        Price: {el?.price}
+                        Price: {formatCurrency(el?.price)}
                       </span>
                       <span style={{ color: "#d9d9d9" }}>
                         Color:{" "}
@@ -133,7 +134,7 @@ const OrderAccountDetail = () => {
                     </div>
                     <div className="product-price">
                       <span style={{ fontWeight: 500, fontSize: "16px" }}>
-                        {el.amount * el.price}
+                        {formatCurrency(el.amount * el.price)}
                       </span>
                     </div>
                   </Card.Grid>
@@ -151,7 +152,7 @@ const OrderAccountDetail = () => {
                   Discount code: {data.discount?.discountCode}
                 </span>
                 <span style={{ color: "#d9d9d9" }}>
-                  Discount value: {data.discount?.discountValue}
+                  Discount value: {formatCurrency(data.discount?.discountValue)}
                 </span>
               </Card.Grid>
               <Card.Grid
@@ -162,7 +163,7 @@ const OrderAccountDetail = () => {
                   fontSize: "16px",
                 }}
               >
-                {data.totalDiscount}
+                {formatCurrency(data.totalDiscount)}
               </Card.Grid>
               <Card.Grid style={{ width: "45%" }}>
                 <h5>Subtotal: </h5>
@@ -175,7 +176,20 @@ const OrderAccountDetail = () => {
                   fontSize: "16px",
                 }}
               >
-                {data.totalPrice}
+                {formatCurrency(data.totalPrice)}
+              </Card.Grid>
+              <Card.Grid style={{ width: "45%" }}>
+                <h5>Shipping fee: </h5>
+              </Card.Grid>
+              <Card.Grid
+                style={{
+                  width: "55%",
+                  textAlign: "end",
+                  fontWeight: 500,
+                  fontSize: "16px",
+                }}
+              >
+                {formatCurrency(data.shippingFee)}
               </Card.Grid>
               <Card.Grid style={{ width: "45%" }}>
                 <h4 style={{ marginBottom: 0 }}>Total: </h4>
@@ -188,7 +202,7 @@ const OrderAccountDetail = () => {
                   fontSize: "18px",
                 }}
               >
-                {data.totalCurrentPrice}
+                {formatCurrency(data.totalCurrentPrice)}
               </Card.Grid>
             </div>
           </Fragment>

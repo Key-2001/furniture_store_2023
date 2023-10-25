@@ -89,7 +89,7 @@ const UploadImages = (props) => {
         onRemove={handleRemove}
         // onChange={handleChange}
       >
-        {fileList.length > 5 ? null : uploadButton}
+        {fileList.length > 4 ? null : uploadButton}
       </Upload>
       <Modal
         open={previewOpen}

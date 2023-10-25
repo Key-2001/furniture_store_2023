@@ -3,6 +3,7 @@ import { Fragment } from "react";
 import Loading from "../Loader/Loading";
 import { Link } from "react-router-dom";
 import { BiSearchAlt2 } from "react-icons/bi";
+import { formatCurrency } from "../../utils";
 
 const ViewProductsPage = (props) => {
   //! Props
@@ -12,7 +13,6 @@ const ViewProductsPage = (props) => {
   //! Function
 
   //! Effect
-
   //! Render
   return (
     <Fragment>
@@ -36,7 +36,7 @@ const ViewProductsPage = (props) => {
                 return (
                   <article key={id} className="featured">
                     <div className="container">
-                      <img src={images[0]} alt={name} />
+                      <img src={images[0].url} alt={name} />
                       <Link
                         to={`/products/${id}?name=${name}`}
                         className="link"
@@ -50,14 +50,14 @@ const ViewProductsPage = (props) => {
                         style={{ textTransform: "unset" }}
                       >
                         <h5>{name}</h5>
-                        <p style={{ textTransform: "unset" }}>${price}</p>
+                        <p style={{ textTransform: "unset" }}>{formatCurrency(price)}</p>
                       </div>
                     )}
 
                     {!isTypeRender && (
                       <div>
                         <h4>{name}</h4>
-                        <h5 style={{ textTransform: "unset" }}>${price}</h5>
+                        <h5 style={{ textTransform: "unset" }}>{formatCurrency(price)}</h5>
                         <p>{text}...</p>
                         <Link
                           to={`/products/${id}?name=${name}`}

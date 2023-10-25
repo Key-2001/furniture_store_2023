@@ -1,14 +1,19 @@
 /* eslint-disable react/prop-types */
-import React from "react";
+import React, { useContext } from "react";
 import logoImg from "../../assets/images/logo.svg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
 import { BsFillPersonPlusFill } from "react-icons/bs";
 import { FaUser } from "react-icons/fa";
-import {AiOutlineClose} from 'react-icons/ai'
-
+import { AiOutlineClose } from "react-icons/ai";
+import { authContext } from "../../context/AuthContext";
+import { cartContext } from "../../context/CartContext";
+import { renderTotalAmountCartProducts } from "../../utils";
 
 const Sidebar = (props) => {
+  const { token } = useContext(authContext);
+  const { products } = useContext(cartContext);
+  const navigate = useNavigate();
   const { isShowSidebar, handleToggleShowSidebar } = props;
   return (
     <div>
@@ -41,11 +46,19 @@ const Sidebar = (props) => {
             cart
             <span className="cart-container">
               <FaShoppingCart />
-              <span className="cart-values">{0}</span>
+              <span className="cart-values">
+                {renderTotalAmountCartProducts(products)}
+              </span>
             </span>
           </Link>
-          {true ? (
-            <button className="login-btn" type="button">
+          {!token ? (
+            <button
+              className="login-btn"
+              type="button"
+              onClick={() => {
+                navigate("/login", { replace: true });
+              }}
+            >
               login
               <BsFillPersonPlusFill className="icon-login" />
             </button>

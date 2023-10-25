@@ -119,6 +119,10 @@ export const colorsList = [
     label: "Yellow",
     value: "#FFB900",
   },
+  {
+    label: 'White',
+    value: '#ffffff'
+  }
 ];
 
 export const enumStatus = [

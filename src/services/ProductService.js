@@ -15,8 +15,17 @@ export const CreateProductService = async (data, token) => {
   });
 };
 
-export const RemoveProductService = async (ids, token) => {
-  return await axios.delete(`${APIEndpoint.PRODUCTS_ENDPOINT}/multiple?${ids}`, {
+export const UpdateProductService = async (id, data, token) => {
+  return await axios.patch(`${APIEndpoint.PRODUCTS_ENDPOINT}/${id}`, data, {
     headers: { Authorization: `Bearer ${token}` },
   });
+};
+
+export const RemoveProductService = async (ids, token) => {
+  return await axios.delete(
+    `${APIEndpoint.PRODUCTS_ENDPOINT}/multiple?${ids}`,
+    {
+      headers: { Authorization: `Bearer ${token}` },
+    }
+  );
 };

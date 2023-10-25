@@ -12,8 +12,10 @@ import { toast } from "react-toastify";
 import { discountContext } from "../../context/DiscountContext";
 import { authContext } from "../../context/AuthContext";
 import {
+  formatCurrency,
   handleRenderSubtotalCart,
   handleRenderTotalDiscount,
+  renderShippingFee,
 } from "../../utils";
 const CartPage = () => {
   const navigate = useNavigate();
@@ -94,16 +96,16 @@ const CartPage = () => {
             return (
               <article key={`${id}`} className="cart-item">
                 <div className="img-title">
-                  <img src={image} alt={name} />
+                  <img src={image.url} alt={name} />
                   <div>
                     <h5 className="name-cart">{name}</h5>
                     <p className="color-cart">
                       color: <span style={{ backgroundColor: `${color}` }} />
                     </p>
-                    <h5 className="price-small">${price}</h5>
+                    <h5 className="price-small">{formatCurrency(price)}</h5>
                   </div>
                 </div>
-                <h5 className="price-cart">${price}</h5>
+                <h5 className="price-cart">{formatCurrency(price)}</h5>
                 <div className="amounts-btn">
                   {amount === 1 ? (
                     <button
@@ -143,7 +145,7 @@ const CartPage = () => {
                     </button>
                   )}
                 </div>
-                <h5 className="subtotal">${price * amount}</h5>
+                <h5 className="subtotal">{formatCurrency(price * amount)}</h5>
                 <button
                   className="remove-btn"
                   onClick={() => handleRemoveBtn(id)}
@@ -171,34 +173,41 @@ const CartPage = () => {
           <div>
             <article>
               <h5>
-                subtotal : <span>${handleRenderSubtotalCart(products)}</span>
+                subtotal :{" "}
+                <span style={{ textAlign: "end" }}>
+                  {formatCurrency(handleRenderSubtotalCart(products))}
+                </span>
               </h5>
-              <p>
+              <p style={{ marginBottom: "8px" }}>
                 discount :
-                <span>
-                  {/* {discountState?.discount &&
-                  discountState?.discount?.amountUse > 0
-                    ? discountState?.discount?.valueDiscount
-                    : ""} */}
-                  $
-                  {handleRenderTotalDiscount(
-                    discountCode,
-                    valueDiscount,
-                    products
+                <span style={{ textAlign: "end" }}>
+                  {formatCurrency(
+                    handleRenderTotalDiscount(
+                      discountCode,
+                      valueDiscount,
+                      products
+                    )
                   )}
+                </span>
+              </p>
+              <p>
+                shipping fee :
+                <span style={{ textAlign: "end" }}>
+                  {formatCurrency(renderShippingFee(products))}
                 </span>
               </p>
               <hr />
               <h4>
                 order total :{" "}
                 <span>
-                  $
-                  {handleRenderSubtotalCart(products) -
-                    handleRenderTotalDiscount(
-                      discountCode,
-                      valueDiscount,
-                      products
-                    )}
+                  {formatCurrency(
+                    handleRenderSubtotalCart(products) + renderShippingFee(products) -
+                      handleRenderTotalDiscount(
+                        discountCode,
+                        valueDiscount,
+                        products
+                      )
+                  )}
                 </span>
               </h4>
             </article>

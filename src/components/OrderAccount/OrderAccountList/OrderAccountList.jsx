@@ -4,6 +4,7 @@ import { Button, Flex, Table, Tag } from "antd";
 import { Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import { enumStatus } from "../../../constants";
+import { formatCurrency } from "../../../utils";
 
 const OrderAccountList = (props) => {
   const navigate = useNavigate();
@@ -41,6 +42,7 @@ const OrderAccountList = (props) => {
     {
       title: "Total order",
       dataIndex: "totalCurrentPrice",
+      render: (_) => <>{formatCurrency(_)}</>
     },
     {
       title: "Action",

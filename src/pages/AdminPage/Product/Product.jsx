@@ -97,7 +97,7 @@ const Product = () => {
         isOpenModal={isOpenModal}
         handleChangeModal={handleChangeModal}
       />
-      <Paper>
+      <Paper isFix={true}>
         <ProductList
           isLoading={isLoading || isFetching}
           data={data}

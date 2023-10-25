@@ -2,7 +2,7 @@
 
 import { ConfigProvider } from "antd";
 
-const Paper = ({ children, style }) => {
+const Paper = ({ children, style, isFix }) => {
   return (
     <ConfigProvider
       key={"paper"}
@@ -15,6 +15,8 @@ const Paper = ({ children, style }) => {
     >
       <div
         style={{
+          height: isFix && "calc(100vh - 184px)",
+          overflowY: isFix && "auto", 
           padding: 24,
           background: "rgb(255, 255, 255)",
           ...style

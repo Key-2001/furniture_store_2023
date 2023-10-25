@@ -1,10 +1,13 @@
 /* eslint-disable react/prop-types */
-import { Button, Input, Space, Table } from "antd";
+import { Button, Flex, Image, Input, Space, Table } from "antd";
 import { Fragment, useRef, useState } from "react";
-import { SearchOutlined } from "@ant-design/icons";
+import { SearchOutlined, SettingOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
+import { formatCurrency } from "../../../../utils";
+import { useNavigate } from "react-router-dom";
 
 const ProductList = (props) => {
+  const navigate = useNavigate();
   //! Props
   const {
     query,
@@ -129,6 +132,13 @@ const ProductList = (props) => {
   });
   const columns = [
     {
+      title: "Preview",
+      dataIndex: "images",
+      render: (img) => {
+        return <Image width={100} src={img[0].url} />;
+      },
+    },
+    {
       title: "Name",
       dataIndex: "name",
       ...getColumnSearchProps("name"),
@@ -140,6 +150,26 @@ const ProductList = (props) => {
     {
       title: "Price",
       dataIndex: "price",
+      render: (_) => {
+        return <>{formatCurrency(_)}</>;
+      },
+    },
+    {
+      title: "Action",
+      dataIndex: "_id",
+      align: 'center',
+      render: (id) => {
+        return (
+          <Flex align="center" justify="center">
+            <Button
+              icon={<SettingOutlined />}
+              onClick={() => {
+                navigate(`/admin/product/${id}`, { replace: true });
+              }}
+            />
+          </Flex>
+        );
+      },
     },
   ];
   //! Function

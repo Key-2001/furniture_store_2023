@@ -3,8 +3,10 @@ import { useContext } from "react";
 import { cartContext } from "../../context/CartContext";
 import { discountContext } from "../../context/DiscountContext";
 import {
+  formatCurrency,
   handleRenderSubtotalCart,
   handleRenderTotalDiscount,
+  renderShippingFee,
 } from "../../utils";
 import { colorsList } from "../../constants";
 import HashLoader from "react-spinners/HashLoader";
@@ -35,7 +37,7 @@ const ProductCheckout = (props) => {
           return (
             <div className="checkout-content-product_item" key={el?.id}>
               <div className="checkout-content-product_item-img">
-                <img src={el?.image} alt="" />
+                <img src={el?.image.url} alt="" />
               </div>
               <div className="checkout-content-product_item-info">
                 <span className="title">{el?.name}</span>
@@ -44,10 +46,10 @@ const ProductCheckout = (props) => {
                   {colorsList.find((color) => color.value === el?.color).label}
                 </span>
                 <span>amount: {el?.amount}</span>
-                <span>price: ${el?.price}</span>
+                <span>price: {formatCurrency(el?.price)}</span>
               </div>
               <div className="checkout-content-product_item-price">
-                <span>${el?.amount * el?.price}</span>
+                <span>{formatCurrency(el?.amount * el?.price)}</span>
               </div>
             </div>
           );
@@ -56,7 +58,7 @@ const ProductCheckout = (props) => {
         <div className="checkout-content-product-total">
           <div className="checkout-content-product-total_item">
             <span>Subtotal</span>
-            <span>${handleRenderSubtotalCart(products)}</span>
+            <span>{formatCurrency(handleRenderSubtotalCart(products))}</span>
           </div>
           <div className="checkout-content-product-total_item">
             <span style={{ fontWeight: "400" }}>Discount code</span>
@@ -65,20 +67,29 @@ const ProductCheckout = (props) => {
           <div className="checkout-content-product-total_item">
             <span style={{ fontWeight: "400" }}>Discount</span>
             <span style={{ fontWeight: "400" }}>
-              $
-              {handleRenderTotalDiscount(discountCode, valueDiscount, products)}
+              {formatCurrency(
+                handleRenderTotalDiscount(discountCode, valueDiscount, products)
+              )}
+            </span>
+          </div>
+          <div className="checkout-content-product-total_item">
+            <span style={{ fontWeight: "400" }}>Shipping fee</span>
+            <span style={{ fontWeight: "400" }}>
+              {formatCurrency(renderShippingFee(products))}
             </span>
           </div>
           <div className="checkout-content-product-total_item">
             <span style={{ fontSize: "24px" }}>Order total</span>
             <span style={{ fontSize: "24px" }}>
-              $
-              {handleRenderSubtotalCart(products) -
-                handleRenderTotalDiscount(
-                  discountCode,
-                  valueDiscount,
-                  products
-                )}
+              {formatCurrency(
+                handleRenderSubtotalCart(products) +
+                  renderShippingFee(products) -
+                  handleRenderTotalDiscount(
+                    discountCode,
+                    valueDiscount,
+                    products
+                  )
+              )}
             </span>
           </div>
           <button

@@ -28,7 +28,7 @@ const CheckoutSuccess = () => {
         <div className="wrap-checkout-success_content-btn">
           <Button
             onClick={() => {
-              navigate("/user/me", { replace: true });
+              navigate("/user/order", { replace: true });
             }}
           >
             VIEW ORDER

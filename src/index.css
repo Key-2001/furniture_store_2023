@@ -1345,7 +1345,7 @@ hr {
   text-transform: capitalize;
 }
 .total-price h5 {
-  margin-bottom: 1rem;
+  margin-bottom: 8px;
 }
 .total-price p {
   margin-bottom: 1.75rem;

@@ -31,3 +31,9 @@ export const GetOrderAdminDetailService = async (id, token) => {
     headers: { Authorization: `Bearer ${token}` },
   });
 };
+
+export const UpdateStatusAdminService = async (id, data, token) => {
+  return await axios.patch(`${ApiEndpoint.ADMIN_ENDPOINT}/order/${id}`, data, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};

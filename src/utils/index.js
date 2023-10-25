@@ -56,3 +56,18 @@ export const renderTotalAmountCartProducts = (products) => {
 
   return products ? total : 0;
 };
+
+export const renderShippingFee = (products) => {
+  if(handleRenderSubtotalCart(products) > 3000000){
+    return 0
+  }else{
+    return 500000
+  }
+}
+
+export const formatCurrency = (money) => {
+  return Number(money).toLocaleString("vi", {
+    style: "currency",
+    currency: "VND",
+  });
+};

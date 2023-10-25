@@ -7,6 +7,7 @@ import { BsCheck } from "react-icons/bs";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { cartContext } from "../../context/CartContext";
 import { toast } from "react-toastify";
+import { formatCurrency } from "../../utils";
 
 const ProductDetailPage = () => {
   const { id } = useParams();
@@ -81,8 +82,7 @@ const ProductDetailPage = () => {
           </h3>
         </div>
       </section>
-
-      {isLoading && isFetching && (
+      {isLoading || isFetching  && (
         <div style={{ height: "calc(80vh - 160px)" }}>
           <Loading />
         </div>
@@ -96,17 +96,17 @@ const ProductDetailPage = () => {
             <div className="product-center">
               <section className="img-section">
                 <img
-                  src={detailProduct?.images[imgMain]}
+                  src={detailProduct?.images[imgMain].url}
                   alt=""
                   className="main"
                 />
                 {detailProduct?.images && (
                   <div className="gallery">
-                    {(detailProduct?.images || [])?.map((url, index) => {
+                    {(detailProduct?.images || [])?.map((img, index) => {
                       return (
                         <img
                           key={index}
-                          src={url}
+                          src={img.url}
                           alt=""
                           className={`${imgMain === index ? "active" : ""}`}
                           onClick={() => setImgMain(index)}
@@ -118,35 +118,7 @@ const ProductDetailPage = () => {
               </section>
               <section className="content">
                 <h2>{detailProduct?.name}</h2>
-                {/* <div className="review">
-                  <div className="stars">
-                    {starList.map((starItem) => {
-                      let temp = stars - starItem;
-
-                      if (temp >= 1) {
-                        return (
-                          <span key={starItem}>
-                            <BsStarFill />
-                          </span>
-                        );
-                      } else if (temp > 0 && temp < 1) {
-                        return (
-                          <span key={starItem}>
-                            <BsStarHalf />
-                          </span>
-                        );
-                      } else {
-                        return (
-                          <span key={starItem}>
-                            <BsStar />
-                          </span>
-                        );
-                      }
-                    })}
-                  </div>
-                  <p className="reviewer">({reviews} customer reviewers)</p>
-                </div> */}
-                <h5>${detailProduct?.price}</h5>
+                <h5>{formatCurrency(detailProduct?.price)}</h5>
                 <p className="description">{detailProduct?.description}</p>
                 <p className="info">
                   <span>available:</span>

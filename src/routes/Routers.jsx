@@ -197,6 +197,16 @@ const Routers = () => {
         }
       />
       <Route
+        path="/admin/product/:id"
+        element={
+          <ProtectedRouteAdmin>
+            <LayoutAdmin>
+              <ProductForm />
+            </LayoutAdmin>
+          </ProtectedRouteAdmin>
+        }
+      />
+      <Route
         path="/admin/user"
         element={
           <ProtectedRouteAdmin>
@@ -216,13 +226,15 @@ const Routers = () => {
           </ProtectedRouteAdmin>
         }
       />
-      <Route 
+      <Route
         path="/admin/order/:id"
-          element={<ProtectedRouteAdmin>
+        element={
+          <ProtectedRouteAdmin>
             <LayoutAdmin>
-              <OrderDetail/>
+              <OrderDetail />
             </LayoutAdmin>
-          </ProtectedRouteAdmin>}
+          </ProtectedRouteAdmin>
+        }
       />
       <Route path="*" element={<NotExistedPage />} />
     </Routes>

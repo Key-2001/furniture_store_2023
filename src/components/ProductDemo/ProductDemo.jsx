@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { GetAllProductsService } from "../../services/ProductService";
 import { useEffect, useState } from "react";
 import Loading from "../Loader/Loading";
+import { formatCurrency } from "../../utils";
 
 const ProductDemo = () => {
   //! Props
@@ -40,14 +41,14 @@ const ProductDemo = () => {
           return (
             <article key={_id} className="featured">
               <div className="container">
-                <img src={images[0]} alt={name} />
+                <img src={images[0].url} alt={name} />
                 <Link to={`/products/${_id}?name=${name}`} className="link">
                   <BiSearchAlt2 />
                 </Link>
               </div>
               <div className="footer-featured">
                 <h5>{name}</h5>
-                <p>${price}</p>
+                <p>{formatCurrency(price)}</p>
               </div>
             </article>
           );

@@ -1,10 +1,11 @@
 /* eslint-disable react/prop-types */
 import { categoryList, colorsList, companyList } from "../../constants";
 import { BsCheck } from "react-icons/bs";
+import { formatCurrency } from "../../utils";
 
 const FilterProductsPage = (props) => {
   //! Props
-  const {query, handleChangeQuery, handleClearFilter} = props;
+  const { query, handleChangeQuery, handleClearFilter } = props;
   //! State
 
   //! Function
@@ -33,7 +34,7 @@ const FilterProductsPage = (props) => {
                 type="button"
                 name="category"
                 className={`${query?.category === "" ? "null active" : "null"}`}
-                value={''}
+                value={""}
                 onClick={handleChangeQuery}
               >
                 all
@@ -45,7 +46,9 @@ const FilterProductsPage = (props) => {
                     key={index}
                     name="category"
                     value={item.value}
-                    className={`${item.value === query?.category ? "null active" : "null"}`}
+                    className={`${
+                      item.value === query?.category ? "null active" : "null"
+                    }`}
                     onClick={handleChangeQuery}
                   >
                     {item.label}
@@ -77,7 +80,9 @@ const FilterProductsPage = (props) => {
                 type="button"
                 name="color"
                 value=""
-                className={`${query?.color === "" ? "all-btn active" : "all-btn"}`}
+                className={`${
+                  query?.color === "" ? "all-btn active" : "all-btn"
+                }`}
                 onClick={handleChangeQuery}
               >
                 all
@@ -89,7 +94,11 @@ const FilterProductsPage = (props) => {
                     key={index}
                     name="color"
                     value={item?.value}
-                    className={`${query?.color === item?.value ? "color-btn active" : "color-btn"}`}
+                    className={`${
+                      query?.color === item?.value
+                        ? "color-btn active"
+                        : "color-btn"
+                    }`}
                     style={{ backgroundColor: `${item.value}` }}
                     onClick={handleChangeQuery}
                   >
@@ -100,11 +109,11 @@ const FilterProductsPage = (props) => {
           </div>
           <div className="form-control">
             <h5>price</h5>
-            <p className="price">${query?.price}</p>
+            <p className="price">{formatCurrency(query?.price)}</p>
             <input
               type="range"
               min="0"
-              max="4000"
+              max="5000000"
               name="price"
               value={query?.price}
               onChange={handleChangeQuery}

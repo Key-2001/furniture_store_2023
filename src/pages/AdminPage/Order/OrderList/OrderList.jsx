@@ -5,6 +5,8 @@ import { Fragment, useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
 import { useNavigate } from "react-router-dom";
 import { enumStatus } from "../../../../constants";
+import { formatCurrency } from "../../../../utils";
+import { format } from "timeago.js";
 
 const OrderList = (props) => {
   const navigate = useNavigate();
@@ -124,6 +126,11 @@ const OrderList = (props) => {
   });
   const columns = [
     {
+      title: 'Created date',
+      dataIndex: 'createdDate',
+      render: (_) => (format(_))
+    },
+    {
       title: "Email",
       dataIndex: "email",
       ...getColumnSearchProps("email"),
@@ -155,6 +162,7 @@ const OrderList = (props) => {
     {
       title: "Total order",
       dataIndex: "totalCurrentPrice",
+      render: (_) => formatCurrency(_),
     },
     {
       title: "Action",

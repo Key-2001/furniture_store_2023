@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { DeleteOutlined, PlusOutlined, RedoOutlined } from "@ant-design/icons";
 import { Button, ConfigProvider, Flex, Modal } from "antd";
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import Paper from "./Paper";
 
 const HeaderTable = (props) => {
@@ -16,7 +16,7 @@ const HeaderTable = (props) => {
     onDelete,
     isLoadingDelete,
     isOpenModal,
-    handleChangeModal
+    handleChangeModal,
   } = props;
   //! State
   //! Function

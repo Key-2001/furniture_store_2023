@@ -12,6 +12,7 @@ import { CheckoutOrderService } from "../../services/OrderService";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { authContext } from "../../context/AuthContext";
+import { renderShippingFee } from "../../utils";
 
 const CheckoutPage = () => {
   const navigate = useNavigate();
@@ -25,6 +26,7 @@ const CheckoutPage = () => {
     mutationFn: (data) => CheckoutOrderService(data, token),
   });
   //! Function
+  console.log('sjdanks', products);
   const handleSubmit = useCallback(async (values) => {
     console.log(
       "responseDataSubmit",
@@ -43,6 +45,7 @@ const CheckoutPage = () => {
     formData.append("discountCode", discountCode ? discountCode : "");
     formData.append("valueDiscount", valueDiscount);
     formData.append("products", JSON.stringify(products));
+    formData.append("shippingFee", renderShippingFee(products))
     try {
       const response = await mutateCheckout.mutateAsync(formData);
       console.log("response", response);
