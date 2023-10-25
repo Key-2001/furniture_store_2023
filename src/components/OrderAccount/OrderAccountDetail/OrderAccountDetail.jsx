@@ -178,7 +178,7 @@ const OrderAccountDetail = () => {
                 {data.totalPrice}
               </Card.Grid>
               <Card.Grid style={{ width: "45%" }}>
-                <h4>Total: </h4>
+                <h4 style={{ marginBottom: 0 }}>Total: </h4>
               </Card.Grid>
               <Card.Grid
                 style={{

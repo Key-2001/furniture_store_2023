@@ -125,26 +125,39 @@ export const enumStatus = [
   {
     value: "01",
     label: "Pending",
-    color: 'purple'
+    color: "purple",
   },
   {
     value: "02",
     label: "Preparing",
-    color: 'orange'
+    color: "orange",
   },
   {
     value: "03",
     label: "Delivering",
-    color: 'blue'
+    color: "blue",
   },
   {
     value: "04",
     label: "Completed",
-    color: 'success'
+    color: "success",
   },
   {
     value: "05",
     label: "Cancel",
-    color: 'error'
+    color: "error",
+  },
+];
+
+export const enumPaymentStatus = [
+  {
+    value: "01",
+    label: "Unpaid",
+    color: "red",
+  },
+  {
+    value: "02",
+    label: "Paid",
+    color: "green",
   },
 ];
