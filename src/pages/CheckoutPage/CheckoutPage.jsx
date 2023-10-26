@@ -18,7 +18,11 @@ const CheckoutPage = () => {
   const navigate = useNavigate();
   const { token } = useContext(authContext);
   const { products, dispatch } = useContext(cartContext);
-  const { discountCode, value: valueDiscount } = useContext(discountContext);
+  const {
+    discountCode,
+    value: valueDiscount,
+    dispatch: dispatchDiscount,
+  } = useContext(discountContext);
   //! Props
 
   //! State
@@ -26,15 +30,7 @@ const CheckoutPage = () => {
     mutationFn: (data) => CheckoutOrderService(data, token),
   });
   //! Function
-  console.log('sjdanks', products);
   const handleSubmit = useCallback(async (values) => {
-    console.log(
-      "responseDataSubmit",
-      values,
-      products,
-      discountCode,
-      valueDiscount
-    );
     const formData = new FormData();
     formData.append("email", values.email);
     formData.append("name", values.name);
@@ -45,7 +41,7 @@ const CheckoutPage = () => {
     formData.append("discountCode", discountCode ? discountCode : "");
     formData.append("valueDiscount", valueDiscount);
     formData.append("products", JSON.stringify(products));
-    formData.append("shippingFee", renderShippingFee(products))
+    formData.append("shippingFee", renderShippingFee(products));
     try {
       const response = await mutateCheckout.mutateAsync(formData);
       console.log("response", response);
@@ -54,6 +50,7 @@ const CheckoutPage = () => {
         throw new Error(message);
       }
       dispatch({ type: "CLEAR_CART" });
+      dispatchDiscount({ type: "CLEAR_DISCOUNT" });
       navigate(`/checkout/success/${response.order._id}`);
     } catch (error) {
       console.log(error);

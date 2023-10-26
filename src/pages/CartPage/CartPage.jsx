@@ -181,7 +181,7 @@ const CartPage = () => {
               <p style={{ marginBottom: "8px" }}>
                 discount :
                 <span style={{ textAlign: "end" }}>
-                  {formatCurrency(
+                  - {formatCurrency(
                     handleRenderTotalDiscount(
                       discountCode,
                       valueDiscount,

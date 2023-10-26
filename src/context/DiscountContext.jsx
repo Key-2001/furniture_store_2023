@@ -15,7 +15,11 @@ const discountReducer = (state, action) => {
         discountCode: action.payload.discountCode,
         value: action.payload.value,
       };
-
+    case "CLEAR_DISCOUNT":
+      return {
+        discountCode: null,
+        value: 0,
+      };
     default:
       break;
   }

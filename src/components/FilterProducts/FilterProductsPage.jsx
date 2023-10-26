@@ -99,10 +99,13 @@ const FilterProductsPage = (props) => {
                         ? "color-btn active"
                         : "color-btn"
                     }`}
-                    style={{ backgroundColor: `${item.value}` }}
+                    style={{
+                      backgroundColor: `${item.value}`,
+                      border: "1px solid #dedede",
+                    }}
                     onClick={handleChangeQuery}
                   >
-                    <BsCheck className="check-icon" />
+                    <BsCheck className="check-icon" style={{color: item.value === '#ffffff' ? '#000' : '#fff'}}/>
                   </button>
                 ))}
             </div>

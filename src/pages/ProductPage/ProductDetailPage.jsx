@@ -146,7 +146,7 @@ const ProductDetailPage = () => {
                                 ? "color-btn active"
                                 : "color-btn"
                             }`}
-                            style={{ backgroundColor: `${color}` }}
+                            style={{ backgroundColor: `${color}` , border: '1px solid #dedede'}}
                             onClick={() => handleChangeColorStock(el)}
                           >
                             <BsCheck className="check-icon" />

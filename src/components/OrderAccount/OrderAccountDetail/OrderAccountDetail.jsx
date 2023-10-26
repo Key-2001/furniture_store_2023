@@ -24,7 +24,6 @@ const OrderAccountDetail = () => {
     {
       enabled: false,
       onSuccess: (response) => {
-        console.log("response", response);
         const { success, data } = response;
         if (success) {
           setData(data);
@@ -140,31 +139,6 @@ const OrderAccountDetail = () => {
                   </Card.Grid>
                 );
               })}
-              <Card.Grid
-                style={{
-                  width: "45%",
-                  display: "flex",
-                  flexDirection: "column",
-                }}
-              >
-                <h5>Total discount: </h5>
-                <span style={{ color: "#d9d9d9" }}>
-                  Discount code: {data.discount?.discountCode}
-                </span>
-                <span style={{ color: "#d9d9d9" }}>
-                  Discount value: {formatCurrency(data.discount?.discountValue)}
-                </span>
-              </Card.Grid>
-              <Card.Grid
-                style={{
-                  width: "55%",
-                  textAlign: "end",
-                  fontWeight: 500,
-                  fontSize: "16px",
-                }}
-              >
-                {formatCurrency(data.totalDiscount)}
-              </Card.Grid>
               <Card.Grid style={{ width: "45%" }}>
                 <h5>Subtotal: </h5>
               </Card.Grid>
@@ -190,6 +164,31 @@ const OrderAccountDetail = () => {
                 }}
               >
                 {formatCurrency(data.shippingFee)}
+              </Card.Grid>
+              <Card.Grid
+                style={{
+                  width: "45%",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <h5>Total discount: </h5>
+                <span style={{ color: "#d9d9d9" }}>
+                  Discount code: {data.discount?.discountCode}
+                </span>
+                <span style={{ color: "#d9d9d9" }}>
+                  Discount value: {formatCurrency(data.discount?.discountValue)}
+                </span>
+              </Card.Grid>
+              <Card.Grid
+                style={{
+                  width: "55%",
+                  textAlign: "end",
+                  fontWeight: 500,
+                  fontSize: "16px",
+                }}
+              >
+                - {formatCurrency(data.totalDiscount)}
               </Card.Grid>
               <Card.Grid style={{ width: "45%" }}>
                 <h4 style={{ marginBottom: 0 }}>Total: </h4>

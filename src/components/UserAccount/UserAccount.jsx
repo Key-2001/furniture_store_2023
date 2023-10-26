@@ -8,13 +8,13 @@ import { toast } from "react-toastify";
 import PulseLoader from "react-spinners/PulseLoader";
 import ModalChangePassword from "../ModalChangePassword/ModalChangePassword";
 const UserAccount = () => {
-  const { user, dispatch } = useContext(authContext);
+  const { user, dispatch, token } = useContext(authContext);
   //! Props
 
   //! State
   const [isActiveModal, setIsActiveModal] = useState(false);
   const mutateUpdate = useMutation({
-    mutationFn: (data) => UpdateAccountService(data),
+    mutationFn: (data) => UpdateAccountService(data, token),
   });
   //! Function
   const handleSubmit = useCallback(async (values) => {

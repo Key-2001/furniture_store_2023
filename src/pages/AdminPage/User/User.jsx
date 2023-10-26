@@ -47,7 +47,7 @@ const User = () => {
   //! Function
   useEffect(() => {
     refetch && refetch();
-  }, []);
+  }, [query.email, query.page]);
   //! Effect
 
   //! Render

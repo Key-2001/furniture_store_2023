@@ -10,6 +10,7 @@ import {
 } from "../../utils";
 import { colorsList } from "../../constants";
 import HashLoader from "react-spinners/HashLoader";
+import { Flex } from "antd";
 
 const ProductCheckout = (props) => {
   const { products } = useContext(cartContext);
@@ -67,7 +68,7 @@ const ProductCheckout = (props) => {
           <div className="checkout-content-product-total_item">
             <span style={{ fontWeight: "400" }}>Discount</span>
             <span style={{ fontWeight: "400" }}>
-              {formatCurrency(
+              - {formatCurrency(
                 handleRenderTotalDiscount(discountCode, valueDiscount, products)
               )}
             </span>
@@ -97,7 +98,7 @@ const ProductCheckout = (props) => {
             style={{ padding: "14px", borderRadius: "4px", marginTop: "12px" }}
             type="submit"
           >
-            {isLoading ? <HashLoader size={28} color="#f1f5f8" /> : "Pay now"}
+            {isLoading ? <Flex justify="center"><HashLoader size={28} color="#f1f5f8" /></Flex> : "Pay now"}
           </button>
         </div>
       </div>

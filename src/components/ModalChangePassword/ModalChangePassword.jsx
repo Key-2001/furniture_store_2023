@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import { Fragment, useCallback, useState } from "react";
+import { Fragment, useCallback, useContext, useState } from "react";
 import "./ModalChangePassword.scss";
 import {
   AiOutlineClose,
@@ -12,14 +12,16 @@ import { useMutation } from "@tanstack/react-query";
 import { ChangePasswordAccountService } from "../../services/AccountService";
 import { toast } from "react-toastify";
 import PulseLoader from "react-spinners/PulseLoader";
+import { authContext } from "../../context/AuthContext";
 
 const ModalChangePassword = (props) => {
+  const { token } = useContext(authContext);
   //! Props
   const { setIsActiveModal } = props;
   //! State
   const [isEye, setIsEye] = useState(false);
   const mutateChangePassword = useMutation({
-    mutationFn: (password) => ChangePasswordAccountService(password),
+    mutationFn: (password) => ChangePasswordAccountService(password, token),
   });
   //! Function
   const handleSubmit = useCallback(async (values) => {
