@@ -1,10 +1,11 @@
 /* eslint-disable react/prop-types */
-import { Input } from "antd";
+import { Flex, Input } from "antd";
 import { Fragment } from "react";
 const { TextArea } = Input;
 const InputCommon = (props) => {
   //! Props
-  const { field, form, title, placeholder, style, type, isTextArea, prefix } = props;
+  const { field, form, title, placeholder, style, type, isTextArea, prefix } =
+    props;
   //! State
   const name = field?.name;
   const valueInput = field?.value;
@@ -21,6 +22,30 @@ const InputCommon = (props) => {
   if (isTextArea) {
     return (
       <Fragment>
+        <Flex vertical>
+          {title && (
+            <span
+              style={{ marginBottom: "8px", fontWeight: 500, display: "block" }}
+            >
+              {title}
+            </span>
+          )}
+          <TextArea
+            value={valueInput}
+            style={style}
+            status={error && touched ? "error" : null}
+            onChange={handleChange}
+            placeholder={placeholder}
+            rows={4}
+          />
+          {error && <span className="err-text">{error}</span>}
+        </Flex>
+      </Fragment>
+    );
+  }
+  return (
+    <Fragment>
+      <Flex vertical>
         {title && (
           <span
             style={{ marginBottom: "8px", fontWeight: 500, display: "block" }}
@@ -28,38 +53,18 @@ const InputCommon = (props) => {
             {title}
           </span>
         )}
-        <TextArea
+        <Input
+          title={title}
+          type={type || "text"}
+          placeholder={placeholder}
+          style={{ ...style }}
           value={valueInput}
-          style={style}
           status={error && touched ? "error" : null}
           onChange={handleChange}
-          placeholder={placeholder}
-          rows={4}
+          prefix={prefix ?? null}
         />
         {error && <span className="err-text">{error}</span>}
-      </Fragment>
-    );
-  }
-  return (
-    <Fragment>
-      {title && (
-        <span
-          style={{ marginBottom: "8px", fontWeight: 500, display: "block" }}
-        >
-          {title}
-        </span>
-      )}
-      <Input
-        title={title}
-        type={type || "text"}
-        placeholder={placeholder}
-        style={{ ...style }}
-        value={valueInput}
-        status={error && touched ? "error" : null}
-        onChange={handleChange}
-        prefix={prefix ?? null}
-      />
-      {error && <span className="err-text">{error}</span>}
+      </Flex>
     </Fragment>
   );
 };

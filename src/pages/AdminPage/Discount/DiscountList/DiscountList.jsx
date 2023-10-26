@@ -1,8 +1,10 @@
 /* eslint-disable react/prop-types */
 import { SearchOutlined, SettingOutlined } from "@ant-design/icons";
 import { Button, Input, Space, Table } from "antd";
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useCallback, useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
+import DiscountDrawer from "../DiscountDrawer/DiscountDrawer";
+import { formatCurrency } from "../../../../utils";
 
 const DiscountList = (props) => {
   //! Props
@@ -13,6 +15,11 @@ const DiscountList = (props) => {
     setQuery,
     selectedRowKeys,
     setSelectedRowKeys,
+    discountValue,
+    setDiscountValue,
+    setIsOpenDrawer,
+    isOpenDrawer,
+    refetch,
   } = props;
   //! State
   const [searchedColumn, setSearchedColumn] = useState("");
@@ -33,8 +40,8 @@ const DiscountList = (props) => {
     setQuery((prev) => {
       return {
         ...prev,
-        name: "",
-        idDiscount: 1,
+        page: 1,
+        idDiscount: "",
       };
     });
   };
@@ -137,6 +144,13 @@ const DiscountList = (props) => {
     {
       title: "Value",
       dataIndex: "valueDiscount",
+      render: (_) => {
+        if (_.includes("%")) {
+          return <>{_}</>;
+        } else {
+          return <>{formatCurrency(_)}</>;
+        }
+      },
     },
     {
       title: "Number of uses",
@@ -147,19 +161,35 @@ const DiscountList = (props) => {
       title: "Action",
       dataIndex: "_id",
       align: "center",
-      render: (_) => <Button icon={<SettingOutlined />} />,
+      render: (_, item) => (
+        <Button
+          icon={<SettingOutlined />}
+          onClick={() => {
+            setIsOpenDrawer(true);
+            setDiscountValue(item);
+          }}
+        />
+      ),
     },
   ];
   //! Function
   const onSelectChange = (newSelectedRowKeys) => {
     setSelectedRowKeys(newSelectedRowKeys);
   };
+  const handleCloseDrawer = useCallback(() => {
+    setIsOpenDrawer((active) => !active);
+    setDiscountValue(null);
+  }, []);
   //! Effect
 
   //! Render
   const rowSelection = {
     selectedRowKeys,
     onChange: onSelectChange,
+    getCheckboxProps: (record) => ({
+      disabled: record.amountUse !== 0,
+    }),
+  
   };
   return (
     <Fragment>
@@ -185,6 +215,14 @@ const DiscountList = (props) => {
           },
         }}
       />
+      {isOpenDrawer && (
+        <DiscountDrawer
+          discount={discountValue}
+          onClose={handleCloseDrawer}
+          isOpen={isOpenDrawer}
+          refetch={refetch}
+        />
+      )}
     </Fragment>
   );
 };

@@ -41,6 +41,8 @@ export const handleRenderTotalDiscount = (
       return ((handleRenderSubtotalCart(products) / 100) * valueNumber).toFixed(
         2
       );
+    } else{
+      return Number(valueDiscount)
     }
   }
 };

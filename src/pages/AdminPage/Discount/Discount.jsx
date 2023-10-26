@@ -1,15 +1,21 @@
 import { Fragment, useCallback, useContext, useEffect, useState } from "react";
 import { adminContext } from "../../../context/AdminContext";
-import { useQuery } from "@tanstack/react-query";
-import { GetAllDiscountService } from "../../../services/DiscountService";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import {
+  DeleteMultiDiscountService,
+  GetAllDiscountService,
+} from "../../../services/DiscountService";
 import HeaderTable from "../../../common/HeaderTable";
 import Paper from "../../../common/Paper";
 import DiscountList from "./DiscountList/DiscountList";
+import { toast } from "react-toastify";
 const Discount = () => {
-  const { tokenAdmin } = useContext(adminContext);
+  const { tokenAdmin, dispatch } = useContext(adminContext);
   //! Props
 
   //! State
+  const [discountValue, setDiscountValue] = useState(null);
+  const [isOpenDrawer, setIsOpenDrawer] = useState(false);
   const [data, setData] = useState([]);
   const [query, setQuery] = useState({
     idDiscount: "",
@@ -28,7 +34,6 @@ const Discount = () => {
     {
       enabled: false,
       onSuccess: (response) => {
-        console.log("response", response);
         const { success, data, page } = response;
         if (success) {
           setData(data);
@@ -39,12 +44,34 @@ const Discount = () => {
               totalPage: Number(page?.totalPage),
             };
           });
+        } else {
+          if (response.statusCode === 404) {
+            dispatch({ type: "LOG_OUT" });
+          }
         }
       },
     }
   );
+  const mutateRemoves = useMutation({
+    mutationFn: (ids) => DeleteMultiDiscountService(ids, tokenAdmin),
+  });
   //! Function
-  const handleDelete = useCallback(() => {}, [selectedRowKeys]);
+  const handleDelete = useCallback(async () => {
+    try {
+      const ids = `ids[]=${selectedRowKeys.join("&ids[]=")}`;
+      const response = await mutateRemoves.mutateAsync(ids);
+      const { success, message } = response;
+      if (!success) {
+        throw new Error(message);
+      }
+      toast.success(message);
+      refetch && refetch();
+      setIsOpenModal(false);
+    } catch (error) {
+      console.log(error);
+      toast.error(error.message);
+    }
+  }, [selectedRowKeys]);
   const handleChangeModal = useCallback(
     () => setIsOpenModal((active) => !active),
     []
@@ -62,9 +89,11 @@ const Discount = () => {
         isDelete={true}
         selectedRowKeys={selectedRowKeys}
         onRefetch={refetch}
-        onCreate={() => {}}
+        onCreate={() => {
+          setIsOpenDrawer(true);
+        }}
         onDelete={handleDelete}
-        isLoadingDelete={false}
+        isLoadingDelete={mutateRemoves.isLoading}
         isOpenModal={isOpenModal}
         handleChangeModal={handleChangeModal}
       />
@@ -76,6 +105,11 @@ const Discount = () => {
           setQuery={setQuery}
           selectedRowKeys={selectedRowKeys}
           setSelectedRowKeys={setSelectedRowKeys}
+          discountValue={discountValue}
+          setDiscountValue={setDiscountValue}
+          isOpenDrawer={isOpenDrawer}
+          setIsOpenDrawer={setIsOpenDrawer}
+          refetch={refetch}
         />
       </Paper>
     </Fragment>

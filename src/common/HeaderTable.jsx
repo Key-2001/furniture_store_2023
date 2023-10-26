@@ -59,7 +59,11 @@ const HeaderTable = (props) => {
         </Paper>
         {isOpenModal && (
           <Modal
-            title="Remove Products"
+            title={
+              title?.includes("products")
+                ? "Remove Products"
+                : "Remove Discounts"
+            }
             open={isOpenModal}
             onOk={onDelete}
             confirmLoading={isLoadingDelete}
@@ -67,7 +71,12 @@ const HeaderTable = (props) => {
             okText="Remove"
             okType="danger"
           >
-            <p>Are you sure want to remove products</p>
+            <p>
+              Are you sure want to remove{" "}
+              {title?.includes("products")
+                ? "Remove Products"
+                : "Remove Discounts"}
+            </p>
           </Modal>
         )}
       </Fragment>

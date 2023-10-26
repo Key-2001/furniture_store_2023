@@ -7,7 +7,7 @@ import UserList from "./UserList/UserList";
 import { adminContext } from "../../../context/AdminContext";
 
 const User = () => {
-  const {tokenAdmin} = useContext(adminContext)
+  const { tokenAdmin, dispatch } = useContext(adminContext);
   //! Props
 
   //! State
@@ -20,20 +20,27 @@ const User = () => {
 
   const { isLoading, isFetching, refetch } = useQuery(
     ["user-list"],
-    () => GetUserAdminService({ email: query.email, page: query.page }, tokenAdmin),
+    () =>
+      GetUserAdminService({ email: query.email, page: query.page }, tokenAdmin),
     {
       enabled: false,
       onSuccess: (response) => {
         console.log("responseUser", response);
-        const { data, page } = response;
-        setQuery((prev) => {
-          return {
-            ...prev,
-            page: Number(page.currentPage),
-            totalPage: Number(page.totalPage),
-          };
-        });
-        setData(data);
+        const { data, page, success } = response;
+        if (success) {
+          setQuery((prev) => {
+            return {
+              ...prev,
+              page: Number(page.currentPage),
+              totalPage: Number(page.totalPage),
+            };
+          });
+          setData(data);
+        } else {
+          if (response?.statusCode === 404) {
+            dispatch({ type: "LOG_OUT" });
+          }
+        }
       },
     }
   );
