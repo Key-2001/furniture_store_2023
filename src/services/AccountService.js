@@ -18,3 +18,11 @@ export const ChangePasswordAccountService = async (password, token) => {
 export const ForgotPasswordAccountService = async (data) => {
   return await axios.post(`${APIEndpoint.USER_ENDPOINT}/send-mail`, data);
 };
+
+export const ResetPasswordService = async (data, token) => {
+  return await axios.put(
+    `${APIEndpoint.USER_ENDPOINT}/reset-password`,
+    data,
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+};

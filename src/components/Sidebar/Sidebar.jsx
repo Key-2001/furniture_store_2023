@@ -1,5 +1,5 @@
 /* eslint-disable react/prop-types */
-import React, { useContext } from "react";
+import  { useContext } from "react";
 import logoImg from "../../assets/images/logo.svg";
 import { Link, useNavigate } from "react-router-dom";
 import { FaShoppingCart } from "react-icons/fa";
@@ -57,6 +57,7 @@ const Sidebar = (props) => {
               type="button"
               onClick={() => {
                 navigate("/login", { replace: true });
+                handleToggleShowSidebar()
               }}
             >
               login

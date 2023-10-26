@@ -27,6 +27,7 @@ import ProductForm from "../pages/AdminPage/Product/ProductForm/ProductForm";
 import Analytic from "../pages/AdminPage/Analytic/Analytic";
 import OrderDetail from "../pages/AdminPage/Order/OrderDetail/OrderDetail";
 import Discount from "../pages/AdminPage/Discount/DIscount";
+import ForgotPasswordPage from "../pages/ForgotPasswordPage/ForgotPasswordPage";
 
 const Routers = () => {
   return (
@@ -127,6 +128,14 @@ const Routers = () => {
               </ProfilePage>
             </Layout>
           </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/reset-password"
+        element={
+          <Layout isLayout={true}>
+            <ForgotPasswordPage />
+          </Layout>
         }
       />
       <Route

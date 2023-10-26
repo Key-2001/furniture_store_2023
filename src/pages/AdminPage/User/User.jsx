@@ -25,7 +25,6 @@ const User = () => {
     {
       enabled: false,
       onSuccess: (response) => {
-        console.log("responseUser", response);
         const { data, page, success } = response;
         if (success) {
           setQuery((prev) => {

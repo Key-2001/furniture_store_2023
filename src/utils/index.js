@@ -41,8 +41,8 @@ export const handleRenderTotalDiscount = (
       return ((handleRenderSubtotalCart(products) / 100) * valueNumber).toFixed(
         2
       );
-    } else{
-      return Number(valueDiscount)
+    } else {
+      return Number(valueDiscount);
     }
   }
 };
@@ -60,16 +60,28 @@ export const renderTotalAmountCartProducts = (products) => {
 };
 
 export const renderShippingFee = (products) => {
-  if(handleRenderSubtotalCart(products) > 3000000){
-    return 0
-  }else{
-    return 500000
+  if (handleRenderSubtotalCart(products) > 3000000) {
+    return 0;
+  } else {
+    return 500000;
   }
-}
+};
 
 export const formatCurrency = (money) => {
   return Number(money).toLocaleString("vi", {
     style: "currency",
     currency: "VND",
   });
+};
+
+export const getArrLast7Days = () => {
+  const arr = [];
+  for (let index = 6; index >=0; index--) {
+    const today = new Date()
+    const date = new Date(today.setDate(today.getDate() - index))
+      .toISOString()
+      .slice(0, 10);
+    arr.push(date);
+  }
+  return arr;
 };

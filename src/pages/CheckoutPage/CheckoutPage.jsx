@@ -44,7 +44,6 @@ const CheckoutPage = () => {
     formData.append("shippingFee", renderShippingFee(products));
     try {
       const response = await mutateCheckout.mutateAsync(formData);
-      console.log("response", response);
       const { success, message } = response;
       if (!success) {
         throw new Error(message);

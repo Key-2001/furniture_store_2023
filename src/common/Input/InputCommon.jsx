@@ -9,7 +9,6 @@ const InputCommon = (props) => {
   //! State
   const name = field?.name;
   const valueInput = field?.value;
-  // console.log("value",value);
   const error = form?.errors?.[name];
   const touched = form?.touched?.[name];
   //! Function

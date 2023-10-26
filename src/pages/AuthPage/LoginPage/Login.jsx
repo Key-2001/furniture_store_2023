@@ -8,6 +8,7 @@ import { useMutation } from "@tanstack/react-query";
 import { LoginAccountService } from "../../../services/AuthService";
 import { toast } from "react-toastify";
 import { authContext } from "../../../context/AuthContext";
+import PulseLoader from "react-spinners/PulseLoader";
 const Login = () => {
   const { dispatch } = useContext(authContext);
   const navigate = useNavigate();
@@ -132,8 +133,11 @@ const Login = () => {
                   <button
                     type="submit"
                     className="wrap-login-container-content-form-btn"
+                    disabled={mutateLogin.isLoading}
                   >
-                    Login
+                  {mutateLogin.isLoading ? 
+                    <PulseLoader size={12} color="#f1f5f8" />
+                  : "Login"}
                   </button>
                 </Form>
               );

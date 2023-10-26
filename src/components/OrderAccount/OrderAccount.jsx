@@ -22,7 +22,6 @@ const OrderAccount = () => {
     {
       enabled: false,
       onSuccess: (response) => {
-        console.log("response", response);
         const { page, data, success } = response;
         if (success) {
           setData(data);

@@ -33,7 +33,6 @@ const Order = () => {
     {
       enabled: false,
       onSuccess: (response) => {
-        console.log("responseUser", response);
         const { data, page, success } = response;
         if (success) {
           setQuery((prev) => {
@@ -62,7 +61,7 @@ const Order = () => {
   return (
     <Fragment>
       <HeaderTable onRefetch={refetch} title="Order list" />
-      <Paper>
+      <Paper isFix={true}>
         <OrderList
           isLoading={isLoading || isFetching}
           data={data}

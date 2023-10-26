@@ -97,7 +97,7 @@ const Discount = () => {
         isOpenModal={isOpenModal}
         handleChangeModal={handleChangeModal}
       />
-      <Paper>
+      <Paper isFix={true}>
         <DiscountList
           isLoading={isLoading || isFetching}
           data={data}

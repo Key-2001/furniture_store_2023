@@ -82,11 +82,12 @@ const ProductDetailPage = () => {
           </h3>
         </div>
       </section>
-      {isLoading || isFetching  && (
-        <div style={{ height: "calc(80vh - 160px)" }}>
-          <Loading />
-        </div>
-      )}
+      {isLoading ||
+        (isFetching && (
+          <div style={{ height: "calc(80vh - 160px)" }}>
+            <Loading />
+          </div>
+        ))}
       {!isLoading && !isFetching && (
         <Fragment>
           <div className="section section-center page">
@@ -146,10 +147,21 @@ const ProductDetailPage = () => {
                                 ? "color-btn active"
                                 : "color-btn"
                             }`}
-                            style={{ backgroundColor: `${color}` , border: '1px solid #dedede'}}
+                            style={{
+                              backgroundColor: `${color}`,
+                              border: "1px solid #dedede",
+                            }}
                             onClick={() => handleChangeColorStock(el)}
                           >
-                            <BsCheck className="check-icon" />
+                            <BsCheck
+                              className="check-icon"
+                              style={{
+                                color:
+                                  stockCurrent.color === "#ffffff"
+                                    ? "#000"
+                                    : "#fff",
+                              }}
+                            />
                           </button>
                         );
                       })}

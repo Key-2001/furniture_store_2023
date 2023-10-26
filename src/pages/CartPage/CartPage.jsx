@@ -41,7 +41,6 @@ const CartPage = () => {
       const response = await mutateDiscount.mutateAsync({
         discountCode: values.discountCode,
       });
-      console.log("djsand", response);
       const { success, message } = response;
       if (!success) {
         throw new Error(message);
@@ -100,7 +99,7 @@ const CartPage = () => {
                   <div>
                     <h5 className="name-cart">{name}</h5>
                     <p className="color-cart">
-                      color: <span style={{ backgroundColor: `${color}` }} />
+                      color: <span style={{ backgroundColor: `${color}` , border: '1px solid #dedede'}} />
                     </p>
                     <h5 className="price-small">{formatCurrency(price)}</h5>
                   </div>

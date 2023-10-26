@@ -208,7 +208,7 @@ const Signup = () => {
                     disabled={mutateSignup?.isLoading}
                   >
                     {mutateSignup?.isLoading ? (
-                      <PulseLoader size={12} color="#decbc0" />
+                      <PulseLoader size={12} color="#f1f5f8" />
                     ) : (
                       "Sign up"
                     )}

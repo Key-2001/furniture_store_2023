@@ -11,15 +11,7 @@ import {
   ShoppingOutlined,
   UserOutlined,
 } from "@ant-design/icons";
-import {
-  Layout,
-  Menu,
-  Button,
-  ConfigProvider,
-  Breadcrumb,
-  Dropdown,
-  Space,
-} from "antd";
+import { Layout, Menu, Button, ConfigProvider, Dropdown, Space } from "antd";
 const { Header, Sider, Content } = Layout;
 import logoUrl from "../assets/images/logo.svg";
 import { useNavigate } from "react-router-dom";
@@ -35,7 +27,6 @@ const LayoutAdmin = ({ children }) => {
   const [menuKey, setMenuKey] = useState(
     window.location.pathname.split("/")[2] ?? "dashboard"
   );
-
   //! Function
   const handleLogout = useCallback(() => {
     dispatch({ type: "LOG_OUT" });
@@ -73,6 +64,7 @@ const LayoutAdmin = ({ children }) => {
             <img src={logoUrl} alt="" style={{ width: "100%" }} />
           </div>
           <Menu
+            style={{ borderInlineEnd: "unset" }}
             theme="light"
             mode="inline"
             defaultSelectedKeys={[menuKey]}
@@ -169,7 +161,6 @@ const LayoutAdmin = ({ children }) => {
                     height: 64,
                   }}
                 />
-                <Breadcrumb items={[{ title: "dashboard" }]} />
               </div>
               <Dropdown
                 menu={{
@@ -189,6 +180,7 @@ const LayoutAdmin = ({ children }) => {
             style={{
               margin: "24px 16px",
               minHeight: 280,
+              overflowY: "auto",
             }}
           >
             {children}
