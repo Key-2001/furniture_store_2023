@@ -1,13 +1,14 @@
 /* eslint-disable react/prop-types */
 import { useCallback, useContext, useState } from "react";
 import {
+  BlockOutlined,
   DatabaseOutlined,
   HomeOutlined,
   LineChartOutlined,
   LogoutOutlined,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
-  ShoppingCartOutlined,
+  ShoppingOutlined,
   UserOutlined,
 } from "@ant-design/icons";
 import {
@@ -105,7 +106,7 @@ const LayoutAdmin = ({ children }) => {
               },
               {
                 key: "order",
-                icon: <ShoppingCartOutlined />,
+                icon: <ShoppingOutlined />,
                 label: "Order",
                 onClick: () => {
                   setMenuKey("order");
@@ -119,6 +120,15 @@ const LayoutAdmin = ({ children }) => {
                 onClick: () => {
                   setMenuKey("user");
                   navigate("/admin/user", { replace: true });
+                },
+              },
+              {
+                key: "discount",
+                icon: <BlockOutlined />,
+                label: "Discount",
+                onClick: () => {
+                  setMenuKey("discount");
+                  navigate("/admin/discount", { replace: true });
                 },
               },
             ]}
