@@ -31,13 +31,13 @@ const Dashboard = () => {
               );
               if (orderItem) {
                 return {
-                  name: "Order Total",
+                  name: "Order Revenue",
                   time: el,
-                  value: orderItem.totalPrice,
+                  value: orderItem.totalCurrentPrice,
                 };
               } else {
                 return {
-                  name: "Order Total",
+                  name: "Order Revenue",
                   time: el,
                   value: 0,
                 };

@@ -53,7 +53,7 @@ const User = () => {
   return (
     <Fragment>
       <HeaderTable onRefetch={refetch} title="User list" />
-      <Paper>
+      <Paper isFix={true}>
         <UserList
           isLoading={isLoading || isFetching}
           data={data}

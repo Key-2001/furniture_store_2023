@@ -76,8 +76,31 @@ export const formatCurrency = (money) => {
 
 export const getArrLast7Days = () => {
   const arr = [];
-  for (let index = 6; index >=0; index--) {
-    const today = new Date()
+  for (let index = 6; index >= 0; index--) {
+    const today = new Date();
+    const date = new Date(today.setDate(today.getDate() - index))
+      .toISOString()
+      .slice(0, 10);
+    arr.push(date);
+  }
+  return arr;
+};
+const dateDiffInDays = (a, b) => {
+  const _MS_PER_DAY = 1000 * 60 * 60 * 24;
+  // Discard the time and time-zone information.
+  const utc1 = Date.UTC(a.getFullYear(), a.getMonth(), a.getDate());
+  const utc2 = Date.UTC(b.getFullYear(), b.getMonth(), b.getDate());
+
+  return Math.floor((utc2 - utc1) / _MS_PER_DAY);
+};
+
+export const getArrDays = (start, end) => {
+  let arr = [];
+  const startDate = new Date(start);
+  const endDate = new Date(end);
+  const difference = dateDiffInDays(startDate, endDate);
+  for (let index = difference; index >= 0; index--) {
+    const today = new Date();
     const date = new Date(today.setDate(today.getDate() - index))
       .toISOString()
       .slice(0, 10);

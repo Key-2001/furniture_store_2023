@@ -9,6 +9,8 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import HashLoader from "react-spinners/HashLoader";
 import { ArrowUpOutlined } from "@ant-design/icons";
+import { formatCurrency, getArrDays } from "../../../utils";
+import { DualAxes } from "@ant-design/plots";
 
 dayjs.extend(customParseFormat);
 
@@ -31,7 +33,10 @@ const Analytic = () => {
   const [countData, setCountData] = useState({
     orders: 0,
     users: 0,
+    revenue: 0,
   });
+  const [sumData, setSumData] = useState([]);
+  const [revenueData, setRevenueData] = useState([]);
   const { isLoading, isFetching, refetch } = useQuery(
     ["analytic"],
     () => GetAnalyticService(tokenAdmin, query),
@@ -45,8 +50,49 @@ const Analytic = () => {
               ...prev,
               orders: response?.dataCount.orders,
               users: response?.dataCount.users,
+              revenue: response?.dataCount.revenue,
             };
           });
+          setSumData(
+            getArrDays(query.startDate, query.endDate).map((el) => {
+              const orderItem = response?.orderData?.find((item) =>
+                item.date.includes(el)
+              );
+              if (orderItem) {
+                return {
+                  name: "Order Total",
+                  time: el,
+                  value: orderItem.sum,
+                };
+              } else {
+                return {
+                  name: "Order Total",
+                  time: el,
+                  value: 0,
+                };
+              }
+            })
+          );
+          setRevenueData(
+            getArrDays(query.startDate, query.endDate).map((el) => {
+              const orderItem = response?.orderData?.find((item) =>
+                item.date.includes(el)
+              );
+              if (orderItem) {
+                return {
+                  name: "Revenue",
+                  time: el,
+                  revenue: orderItem.totalCurrentPrice,
+                };
+              } else {
+                return {
+                  name: "Revenue",
+                  time: el,
+                  revenue: 0,
+                };
+              }
+            })
+          );
         } else {
           if (response?.statusCode === 404) {
             dispatch({ type: "LOG_OUT" });
@@ -83,10 +129,60 @@ const Analytic = () => {
     refetch && refetch();
   }, [query.startDate, query.endDate]);
   //! Render
+
+  const config = {
+    data: [sumData, revenueData],
+    xField: "time",
+    yField: ["value", "revenue"],
+    geometryOptions: [
+      {
+        geometry: "column",
+        isGroup: true,
+        seriesField: "name",
+        columnWidthRatio: 0.4,
+        label: {},
+        color: ["#5B8FF9"],
+      },
+      {
+        geometry: "line",
+        color: "#5AD8A6",
+        seriesField: "name",
+      },
+    ],
+    legend: {
+      custom: true,
+      position: "bottom",
+      items: [
+        {
+          value: "orderTotal",
+          name: "Order total",
+          marker: {
+            symbol: "square",
+            style: {
+              fill: "#5B8FF9",
+              r: 5,
+            },
+          },
+        },
+        {
+          value: "revenue",
+          name: "Revenue",
+          marker: {
+            symbol: "square",
+            style: {
+              fill: "#5AD8A6",
+              r: 5,
+            },
+          },
+        },
+      ],
+    },
+  };
+
   return (
     <Fragment>
       <HeaderTable title={"Analytic"} onRefetch={refetch} />
-      <Paper>
+      <Paper isFix={true}>
         <RangePicker
           disabledDate={disabledDate}
           value={[
@@ -126,7 +222,20 @@ const Analytic = () => {
                   />
                 </Card>
               </Col>
+              <Col span={8}>
+                <Card>
+                  <Statistic
+                    title="Revenue"
+                    value={formatCurrency(countData?.revenue)}
+                    valueStyle={{ color: "#3f8600" }}
+                    prefix={<ArrowUpOutlined />}
+                  />
+                </Card>
+              </Col>
             </Row>
+            <Card style={{ marginTop: "1rem", height: "550px" }} bordered>
+              <DualAxes {...config} />
+            </Card>
           </Fragment>
         )}
       </Paper>
