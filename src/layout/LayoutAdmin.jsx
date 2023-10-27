@@ -180,7 +180,7 @@ const LayoutAdmin = ({ children }) => {
             style={{
               margin: "24px 16px",
               minHeight: 280,
-              overflowY: "auto",
+              overflowY: 'hidden',
             }}
           >
             {children}

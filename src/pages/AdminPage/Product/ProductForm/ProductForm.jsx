@@ -191,7 +191,7 @@ const ProductForm = () => {
               <Paper
                 style={{ height: "calc(100vh - 184px)", overflowY: "auto" }}
               >
-                {isLoading || isFetching ? (
+                {id && (isLoading || isFetching) ? (
                   <Flex
                     align="center"
                     justify="center"

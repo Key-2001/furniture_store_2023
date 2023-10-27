@@ -61,7 +61,7 @@ const Order = () => {
   return (
     <Fragment>
       <HeaderTable onRefetch={refetch} title="Order list" />
-      <Paper isFix={true}>
+      <Paper isFix={false}>
         <OrderList
           isLoading={isLoading || isFetching}
           data={data}
