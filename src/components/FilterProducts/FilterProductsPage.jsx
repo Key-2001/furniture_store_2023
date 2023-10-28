@@ -1,17 +1,43 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react/prop-types */
 import { categoryList, colorsList, companyList } from "../../constants";
 import { BsCheck } from "react-icons/bs";
 import { formatCurrency } from "../../utils";
+import { useEffect, useState } from "react";
 
 const FilterProductsPage = (props) => {
   //! Props
-  const { query, handleChangeQuery, handleClearFilter } = props;
+  const { query, handleChangeQuery, handleClearFilter, setQuery } = props;
   //! State
-
+  const [queryDebounce, setQueryDebounce] = useState({
+    name: query.name,
+    price: query.price,
+  });
   //! Function
 
   //! Effect
-
+  useEffect(() => {
+    const idTimeout = setTimeout(() => {
+      setQuery((prev) => {
+        return {
+          ...prev,
+          name: queryDebounce.name,
+        };
+      });
+    }, 500);
+    return () => clearTimeout(idTimeout);
+  }, [queryDebounce.name]);
+  useEffect(() => {
+    const idTimeout = setTimeout(() => {
+      setQuery((prev) => {
+        return {
+          ...prev,
+          price: queryDebounce.price,
+        };
+      });
+    }, 500);
+    return () => clearTimeout(idTimeout);
+  }, [queryDebounce.price]);
   //! Render
   return (
     <div className="classify-options">
@@ -23,8 +49,15 @@ const FilterProductsPage = (props) => {
               name="name"
               placeholder="Search"
               className="search-input"
-              value={query?.name}
-              onChange={handleChangeQuery}
+              value={queryDebounce?.name}
+              onChange={(e) =>
+                setQueryDebounce((prev) => {
+                  return {
+                    ...prev,
+                    name: e.target.value,
+                  };
+                })
+              }
             />
           </div>
           <div className="form-control">
@@ -105,21 +138,33 @@ const FilterProductsPage = (props) => {
                     }}
                     onClick={handleChangeQuery}
                   >
-                    <BsCheck className="check-icon" style={{color: item.value === '#ffffff' ? '#000' : '#fff'}}/>
+                    <BsCheck
+                      className="check-icon"
+                      style={{
+                        color: item.value === "#ffffff" ? "#000" : "#fff",
+                      }}
+                    />
                   </button>
                 ))}
             </div>
           </div>
           <div className="form-control">
             <h5>price</h5>
-            <p className="price">{formatCurrency(query?.price)}</p>
+            <p className="price">{formatCurrency(queryDebounce?.price)}</p>
             <input
               type="range"
               min="0"
               max="5000000"
               name="price"
-              value={query?.price}
-              onChange={handleChangeQuery}
+              value={queryDebounce?.price}
+              onChange={(e) =>
+                setQueryDebounce((prev) => {
+                  return {
+                    ...prev,
+                    price: e.target.value,
+                  };
+                })
+              }
             />
           </div>
         </form>

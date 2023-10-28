@@ -82,12 +82,11 @@ const ProductDetailPage = () => {
           </h3>
         </div>
       </section>
-      {isLoading ||
-        (isFetching && (
+      {isLoading || isFetching && (
           <div style={{ height: "calc(80vh - 160px)" }}>
             <Loading />
           </div>
-        ))}
+        )}
       {!isLoading && !isFetching && (
         <Fragment>
           <div className="section section-center page">

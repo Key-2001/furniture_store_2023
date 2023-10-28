@@ -1,5 +1,5 @@
 import { Fragment } from "react";
-
+import codImg from "../../../assets/images/COD.svg";
 const PaymentSection = () => {
   //! Props
 
@@ -16,6 +16,7 @@ const PaymentSection = () => {
         <h4>Payment</h4>
         <div className="checkout-content-input">
           <div className="tag-payment">
+            <img src={codImg} alt="" />
             <p>COD</p>
           </div>
         </div>

@@ -99,7 +99,13 @@ const CartPage = () => {
                   <div>
                     <h5 className="name-cart">{name}</h5>
                     <p className="color-cart">
-                      color: <span style={{ backgroundColor: `${color}` , border: '1px solid #dedede'}} />
+                      color:{" "}
+                      <span
+                        style={{
+                          backgroundColor: `${color}`,
+                          border: "1px solid #dedede",
+                        }}
+                      />
                     </p>
                     <h5 className="price-small">{formatCurrency(price)}</h5>
                   </div>
@@ -180,7 +186,8 @@ const CartPage = () => {
               <p style={{ marginBottom: "8px" }}>
                 discount :
                 <span style={{ textAlign: "end" }}>
-                  - {formatCurrency(
+                  -{" "}
+                  {formatCurrency(
                     handleRenderTotalDiscount(
                       discountCode,
                       valueDiscount,
@@ -198,9 +205,10 @@ const CartPage = () => {
               <hr />
               <h4>
                 order total :{" "}
-                <span>
+                <span style={{ textAlign: "end" }}>
                   {formatCurrency(
-                    handleRenderSubtotalCart(products) + renderShippingFee(products) -
+                    handleRenderSubtotalCart(products) +
+                      renderShippingFee(products) -
                       handleRenderTotalDiscount(
                         discountCode,
                         valueDiscount,

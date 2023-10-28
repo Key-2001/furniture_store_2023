@@ -75,6 +75,7 @@ const ProductsPage = () => {
           query={query}
           handleChangeQuery={handleChangeQuery}
           handleClearFilter={handleClearFilter}
+          setQuery={setQuery}
         />
         <div>
           <SortProducts
