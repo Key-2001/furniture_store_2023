@@ -16,7 +16,6 @@ const { Header, Sider, Content } = Layout;
 import logoUrl from "../assets/images/logo.svg";
 import { useNavigate } from "react-router-dom";
 import { adminContext } from "../context/AdminContext";
-
 const LayoutAdmin = ({ children }) => {
   const navigate = useNavigate();
   const { admin, dispatch } = useContext(adminContext);
@@ -180,7 +179,7 @@ const LayoutAdmin = ({ children }) => {
             style={{
               margin: "24px 16px",
               minHeight: 280,
-              overflowY: 'hidden',
+              overflowY: "hidden",
             }}
           >
             {children}

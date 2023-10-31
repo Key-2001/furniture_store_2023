@@ -20,6 +20,7 @@ const Product = () => {
     name: "",
     page: 1,
     totalPage: 1,
+    company: [],
   });
 
   const [data, setData] = useState([]);
@@ -27,7 +28,7 @@ const Product = () => {
     ["list-product"],
     () =>
       GetProductAdminService(
-        { name: query.name, page: query.page },
+        { name: query.name, page: query.page, company: query.company },
         tokenAdmin
       ),
     {
@@ -79,7 +80,8 @@ const Product = () => {
   //! Effect
   useEffect(() => {
     refetch && refetch();
-  }, [query.page, query.name]);
+  }, [query.page, query.name, query.company]);
+  console.log("query", query);
   //! Render
   return (
     <Fragment>

@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { Button, Flex, Image, Input, Space, Table } from "antd";
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { SearchOutlined, SettingOutlined } from "@ant-design/icons";
 import Highlighter from "react-highlight-words";
 import { formatCurrency } from "../../../../utils";
@@ -19,9 +19,9 @@ const ProductList = (props) => {
   } = props;
   //! State
   const [searchedColumn, setSearchedColumn] = useState("");
+  const [filteredInfo, setFilteredInfo] = useState({});
   const searchInput = useRef(null);
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
-    confirm();
     setQuery((prev) => {
       return {
         ...prev,
@@ -29,9 +29,10 @@ const ProductList = (props) => {
         name: selectedKeys[0],
       };
     });
+    confirm();
     setSearchedColumn(dataIndex);
   };
-  const handleReset = (clearFilters) => {
+  const handleReset = (clearFilters, confirm, close) => {
     clearFilters();
     setQuery((prev) => {
       return {
@@ -40,6 +41,8 @@ const ProductList = (props) => {
         page: 1,
       };
     });
+    confirm();
+    close();
   };
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({
@@ -81,7 +84,9 @@ const ProductList = (props) => {
             Search
           </Button>
           <Button
-            onClick={() => clearFilters && handleReset(clearFilters)}
+            onClick={() =>
+              clearFilters && handleReset(clearFilters, confirm, close)
+            }
             size="small"
             style={{
               width: 90,
@@ -146,6 +151,29 @@ const ProductList = (props) => {
     {
       title: "Company",
       dataIndex: "company",
+      filters: [
+        {
+          text: "Marcos",
+          value: "marcos",
+        },
+        {
+          text: "Liddy",
+          value: "liddy",
+        },
+        {
+          text: "Ikea",
+          value: "ikea",
+        },
+        {
+          text: "Caressa",
+          value: "caressa",
+        },
+      ],
+      filteredValue: filteredInfo.company || null,
+      onFilter: (value, record) => record.company.includes(value),
+      defaultFilteredValue: [],
+      filterResetToDefaultFilteredValue: true,
+      ellipsis: true,
     },
     {
       title: "Price",
@@ -157,7 +185,7 @@ const ProductList = (props) => {
     {
       title: "Action",
       dataIndex: "_id",
-      align: 'center',
+      align: "center",
       render: (id) => {
         return (
           <Flex align="center" justify="center">
@@ -176,13 +204,25 @@ const ProductList = (props) => {
   const onSelectChange = (newSelectedRowKeys) => {
     setSelectedRowKeys(newSelectedRowKeys);
   };
+  const handleChange = (pagination, filters) => {
+    setFilteredInfo(filters);
+  };
   //! Effect
+  useEffect(() => {
+    setQuery((prev) => {
+      return {
+        ...prev,
+        company: filteredInfo.company ? filteredInfo.company : [],
+      };
+    });
+  }, [filteredInfo.company]);
+  console.log("filteredInfo", filteredInfo);
   //! Render
   const rowSelection = {
     selectedRowKeys,
     onChange: onSelectChange,
   };
-
+  console.log("selectedFilter", filteredInfo);
   return (
     <Fragment>
       <Table
@@ -193,6 +233,7 @@ const ProductList = (props) => {
         columns={columns}
         dataSource={data}
         loading={isLoading}
+        onChange={handleChange}
         pagination={{
           total: query.totalPage * 10,
           current: query.page,
