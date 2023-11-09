@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { InfoOutlined, SearchOutlined } from "@ant-design/icons";
 import { Button, Flex, Input, Space, Table, Tag } from "antd";
-import { Fragment, useCallback, useRef, useState } from "react";
+import { Fragment, useCallback, useEffect, useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
 import { useNavigate } from "react-router-dom";
 import { enumStatus } from "../../../../constants";
@@ -26,14 +26,16 @@ const OrderList = (props) => {
     confirm();
     setSearchedColumn(dataIndex);
   };
-  const handleReset = (clearFilters, confirm) => {
+  const handleReset = (clearFilters, confirm, dataIndex) => {
     clearFilters();
-    setQuery(() => {
+    setQuery((prev) => {
       return {
+        ...prev,
+        [dataIndex]: "",
         page: 1,
       };
     });
-    confirm()
+    confirm();
   };
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({
@@ -75,7 +77,9 @@ const OrderList = (props) => {
             Search
           </Button>
           <Button
-            onClick={() => clearFilters && handleReset(clearFilters, confirm)}
+            onClick={() =>
+              clearFilters && handleReset(clearFilters, confirm, dataIndex)
+            }
             size="small"
             style={{
               width: 90,
@@ -217,7 +221,14 @@ const OrderList = (props) => {
     setFilteredInfo(filters);
   }, []);
   //! Effect
-
+  useEffect(() => {
+    setQuery((prev) => {
+      return {
+        ...prev,
+        status: filteredInfo.status ? filteredInfo.status : [],
+      };
+    });
+  }, [filteredInfo.status]);
   //! Render
   return (
     <Fragment>

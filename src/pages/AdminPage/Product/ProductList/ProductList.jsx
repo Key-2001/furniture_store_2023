@@ -26,18 +26,18 @@ const ProductList = (props) => {
       return {
         ...prev,
         page: 1,
-        name: selectedKeys[0],
+        [dataIndex]: selectedKeys[0],
       };
     });
     confirm();
     setSearchedColumn(dataIndex);
   };
-  const handleReset = (clearFilters, confirm, close) => {
+  const handleReset = (clearFilters, confirm, close, dataIndex) => {
     clearFilters();
     setQuery((prev) => {
       return {
         ...prev,
-        name: "",
+        [dataIndex]: "",
         page: 1,
       };
     });
@@ -85,7 +85,8 @@ const ProductList = (props) => {
           </Button>
           <Button
             onClick={() =>
-              clearFilters && handleReset(clearFilters, confirm, close)
+              clearFilters &&
+              handleReset(clearFilters, confirm, close, dataIndex)
             }
             size="small"
             style={{
@@ -176,6 +177,41 @@ const ProductList = (props) => {
       ellipsis: true,
     },
     {
+      title: "Category",
+      dataIndex: "category",
+      filters: [
+        {
+          text: "Office",
+          value: "office",
+        },
+        {
+          text: "Living room",
+          value: "living room",
+        },
+        {
+          text: "Kitchen",
+          value: "kitchen",
+        },
+        {
+          text: "Bedroom",
+          value: "bedroom",
+        },
+        {
+          text: "Dining",
+          value: "dining",
+        },
+        {
+          text: "Kids",
+          value: "kids",
+        },
+      ],
+      filteredValue: filteredInfo.category || null,
+      onFilter: (value, record) => record.category.includes(value),
+      defaultFilteredValue: [],
+      filterResetToDefaultFilteredValue: true,
+      ellipsis: true,
+    },
+    {
       title: "Price",
       dataIndex: "price",
       render: (_) => {
@@ -213,16 +249,15 @@ const ProductList = (props) => {
       return {
         ...prev,
         company: filteredInfo.company ? filteredInfo.company : [],
+        category: filteredInfo.category ? filteredInfo.category : [],
       };
     });
-  }, [filteredInfo.company]);
-  console.log("filteredInfo", filteredInfo);
+  }, [filteredInfo.company, filteredInfo.category]);
   //! Render
   const rowSelection = {
     selectedRowKeys,
     onChange: onSelectChange,
   };
-  console.log("selectedFilter", filteredInfo);
   return (
     <Fragment>
       <Table

@@ -21,6 +21,7 @@ const Discount = () => {
     idDiscount: "",
     page: 1,
     totalPage: 10,
+    valueDiscount: ''
   });
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [isOpenModal, setIsOpenModal] = useState(false);
@@ -30,6 +31,7 @@ const Discount = () => {
       GetAllDiscountService(tokenAdmin, {
         idDiscount: query.idDiscount,
         page: query.page,
+        valueDiscount: query.valueDiscount
       }),
     {
       enabled: false,
@@ -79,7 +81,7 @@ const Discount = () => {
   //! Effect
   useEffect(() => {
     refetch && refetch();
-  }, [query.page, query.idDiscount]);
+  }, [query.page, query.idDiscount, query.valueDiscount]);
   //! Render
   return (
     <Fragment>

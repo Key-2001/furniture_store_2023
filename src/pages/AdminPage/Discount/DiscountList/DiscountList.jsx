@@ -30,20 +30,21 @@ const DiscountList = (props) => {
       return {
         ...prev,
         page: 1,
-        idDiscount: selectedKeys[0],
+        [dataIndex]: selectedKeys[0],
       };
     });
     setSearchedColumn(dataIndex);
   };
-  const handleReset = (clearFilters) => {
+  const handleReset = (clearFilters, confirm, dataIndex) => {
     clearFilters();
     setQuery((prev) => {
       return {
         ...prev,
         page: 1,
-        idDiscount: "",
+        [dataIndex]: "",
       };
     });
+    confirm();
   };
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({
@@ -85,7 +86,9 @@ const DiscountList = (props) => {
             Search
           </Button>
           <Button
-            onClick={() => clearFilters && handleReset(clearFilters)}
+            onClick={() =>
+              clearFilters && handleReset(clearFilters, confirm, dataIndex)
+            }
             size="small"
             style={{
               width: 90,
@@ -126,7 +129,7 @@ const DiscountList = (props) => {
             backgroundColor: "#ffc069",
             padding: 0,
           }}
-          searchWords={[query.idDiscount]}
+          searchWords={[query.idDiscount, query.discountValue]}
           autoEscape
           textToHighlight={text ? text.toString() : ""}
         />
@@ -151,6 +154,8 @@ const DiscountList = (props) => {
           return <>{formatCurrency(_)}</>;
         }
       },
+      ...getColumnSearchProps("valueDiscount"),
+
     },
     {
       title: "Number of uses",
@@ -189,7 +194,6 @@ const DiscountList = (props) => {
     getCheckboxProps: (record) => ({
       disabled: record.amountUse !== 0,
     }),
-  
   };
   return (
     <Fragment>

@@ -22,10 +22,12 @@ const UserList = (props) => {
     confirm();
     setSearchedColumn(dataIndex);
   };
-  const handleReset = (clearFilters, confirm) => {
+  const handleReset = (clearFilters, confirm, dataIndex) => {
     clearFilters();
-    setQuery(() => {
+    setQuery((prev) => {
       return {
+        ...prev,
+        [dataIndex]: '',
         page: 1,
       };
     });
@@ -71,7 +73,7 @@ const UserList = (props) => {
             Search
           </Button>
           <Button
-            onClick={() => clearFilters && handleReset(clearFilters, confirm)}
+            onClick={() => clearFilters && handleReset(clearFilters, confirm, dataIndex)}
             size="small"
             style={{
               width: 90,
