@@ -16,12 +16,22 @@ const User = () => {
     email: "",
     page: 1,
     totalPage: 1,
+    name: "",
+    phoneNumber: "",
   });
 
   const { isLoading, isFetching, refetch } = useQuery(
     ["user-list"],
     () =>
-      GetUserAdminService({ email: query.email, page: query.page }, tokenAdmin),
+      GetUserAdminService(
+        {
+          email: query.email,
+          page: query.page,
+          name: query.name,
+          phoneNumber: query.phoneNumber,
+        },
+        tokenAdmin
+      ),
     {
       enabled: false,
       onSuccess: (response) => {
@@ -46,7 +56,7 @@ const User = () => {
   //! Function
   useEffect(() => {
     refetch && refetch();
-  }, [query.email, query.page]);
+  }, [query.email, query.page, query.name, query.phoneNumber]);
   //! Effect
 
   //! Render

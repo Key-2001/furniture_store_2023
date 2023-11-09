@@ -17,6 +17,7 @@ const Order = () => {
     page: 1,
     totalPage: 1,
     phoneNumber: "",
+    name: "",
   });
 
   const { isLoading, isFetching, refetch } = useQuery(
@@ -26,7 +27,8 @@ const Order = () => {
         {
           email: query.email,
           page: query.page,
-          phoneNumber: "",
+          phoneNumber: query.phoneNumber,
+          name: query.name,
         },
         tokenAdmin
       ),
@@ -52,10 +54,11 @@ const Order = () => {
     }
   );
   //! Function
+
+  //! Effect
   useEffect(() => {
     refetch && refetch();
-  }, [query.page, query.email, query.phoneNumber]);
-  //! Effect
+  }, [query.page, query.email, query.phoneNumber, query.name]);
 
   //! Render
   return (

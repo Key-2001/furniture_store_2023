@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { InfoOutlined, SearchOutlined } from "@ant-design/icons";
 import { Button, Flex, Input, Space, Table, Tag } from "antd";
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useCallback, useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
 import { useNavigate } from "react-router-dom";
 import { enumStatus } from "../../../../constants";
@@ -13,9 +13,9 @@ const OrderList = (props) => {
   //! Props
   const { isLoading, data, query, setQuery } = props;
   const [searchedColumn, setSearchedColumn] = useState("");
+  const [filteredInfo, setFilteredInfo] = useState({});
   const searchInput = useRef(null);
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
-    confirm();
     setQuery((prev) => {
       return {
         ...prev,
@@ -23,17 +23,17 @@ const OrderList = (props) => {
         [dataIndex]: selectedKeys[0],
       };
     });
+    confirm();
     setSearchedColumn(dataIndex);
   };
-  const handleReset = (clearFilters) => {
+  const handleReset = (clearFilters, confirm) => {
     clearFilters();
-    setQuery((prev) => {
+    setQuery(() => {
       return {
-        ...prev,
-        name: "",
         page: 1,
       };
     });
+    confirm()
   };
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({
@@ -75,7 +75,7 @@ const OrderList = (props) => {
             Search
           </Button>
           <Button
-            onClick={() => clearFilters && handleReset(clearFilters)}
+            onClick={() => clearFilters && handleReset(clearFilters, confirm)}
             size="small"
             style={{
               width: 90,
@@ -116,7 +116,7 @@ const OrderList = (props) => {
             backgroundColor: "#ffc069",
             padding: 0,
           }}
-          searchWords={[query.name]}
+          searchWords={[query.name, query.phoneNumber, query.email]}
           autoEscape
           textToHighlight={text ? text.toString() : ""}
         />
@@ -126,9 +126,9 @@ const OrderList = (props) => {
   });
   const columns = [
     {
-      title: 'Created date',
-      dataIndex: 'createdDate',
-      render: (_) => (format(_))
+      title: "Created date",
+      dataIndex: "createdDate",
+      render: (_) => format(_),
     },
     {
       title: "Email",
@@ -138,6 +138,7 @@ const OrderList = (props) => {
     {
       title: "Name",
       dataIndex: "name",
+      ...getColumnSearchProps("name"),
     },
     {
       title: "Phone number",
@@ -158,6 +159,33 @@ const OrderList = (props) => {
           </Tag>
         );
       },
+      filters: [
+        {
+          text: "Pending",
+          value: "01",
+        },
+        {
+          text: "Preparing",
+          value: "02",
+        },
+        {
+          text: "Delivering",
+          value: "03",
+        },
+        {
+          text: "Completed",
+          value: "04",
+        },
+        {
+          text: "Cancel",
+          value: "05",
+        },
+      ],
+      filteredValue: filteredInfo.status || null,
+      onFilter: (value, record) => record.status.includes(value),
+      defaultFilteredValue: [],
+      filterResetToDefaultFilteredValue: true,
+      ellipsis: true,
     },
     {
       title: "Total order",
@@ -185,7 +213,9 @@ const OrderList = (props) => {
   //! State
 
   //! Function
-
+  const handleChange = useCallback((pagination, filters) => {
+    setFilteredInfo(filters);
+  }, []);
   //! Effect
 
   //! Render
@@ -198,6 +228,7 @@ const OrderList = (props) => {
         columns={columns}
         dataSource={data}
         loading={isLoading}
+        onChange={handleChange}
         pagination={{
           total: query.totalPage * 10,
           current: query.page,

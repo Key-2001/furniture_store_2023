@@ -3,6 +3,7 @@ import { SearchOutlined } from "@ant-design/icons";
 import { Button, Input, Space, Table } from "antd";
 import { Fragment, useRef, useState } from "react";
 import Highlighter from "react-highlight-words";
+import { format } from "timeago.js";
 
 const UserList = (props) => {
   //! Props
@@ -11,25 +12,24 @@ const UserList = (props) => {
   const [searchedColumn, setSearchedColumn] = useState("");
   const searchInput = useRef(null);
   const handleSearch = (selectedKeys, confirm, dataIndex) => {
-    confirm();
     setQuery((prev) => {
       return {
         ...prev,
         page: 1,
-        email: selectedKeys[0],
+        [dataIndex]: selectedKeys[0],
       };
     });
+    confirm();
     setSearchedColumn(dataIndex);
   };
-  const handleReset = (clearFilters) => {
+  const handleReset = (clearFilters, confirm) => {
     clearFilters();
-    setQuery((prev) => {
+    setQuery(() => {
       return {
-        ...prev,
-        email: "",
         page: 1,
       };
     });
+    confirm()
   };
   const getColumnSearchProps = (dataIndex) => ({
     filterDropdown: ({
@@ -71,7 +71,7 @@ const UserList = (props) => {
             Search
           </Button>
           <Button
-            onClick={() => clearFilters && handleReset(clearFilters)}
+            onClick={() => clearFilters && handleReset(clearFilters, confirm)}
             size="small"
             style={{
               width: 90,
@@ -112,7 +112,7 @@ const UserList = (props) => {
             backgroundColor: "#ffc069",
             padding: 0,
           }}
-          searchWords={[query.name]}
+          searchWords={[query.name, query.email, query.phoneNumber]}
           autoEscape
           textToHighlight={text ? text.toString() : ""}
         />
@@ -123,6 +123,11 @@ const UserList = (props) => {
 
   const columns = [
     {
+      title: "Created date",
+      dataIndex: "createdDate",
+      render: (_) => format(_),
+    },
+    {
       title: "Email",
       dataIndex: "email",
       ...getColumnSearchProps("email"),
@@ -130,10 +135,13 @@ const UserList = (props) => {
     {
       title: "Name",
       dataIndex: "name",
+      ...getColumnSearchProps("name"),
     },
     {
       title: "Phone number",
       dataIndex: "phoneNumber",
+      ...getColumnSearchProps("phoneNumber"),
+
     },
     {
       title: "Address",
