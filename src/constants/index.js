@@ -120,9 +120,9 @@ export const colorsList = [
     value: "#FFB900",
   },
   {
-    label: 'White',
-    value: '#ffffff'
-  }
+    label: "White",
+    value: "#ffffff",
+  },
 ];
 
 export const enumStatus = [
@@ -152,6 +152,163 @@ export const enumStatus = [
     color: "error",
   },
 ];
+
+export const enumStatusAdmin = (valueSelected) => {
+  switch (valueSelected) {
+    case "01":
+      return [
+        {
+          value: "01",
+          label: "Pending",
+        },
+        {
+          value: "02",
+          label: "Preparing",
+        },
+        {
+          value: "03",
+          label: "Delivering",
+          disabled: true,
+        },
+        {
+          value: "04",
+          label: "Completed",
+          disabled: true,
+        },
+        {
+          value: "05",
+          label: "Cancel",
+        },
+      ];
+    case "02":
+      return [
+        {
+          value: "01",
+          label: "Pending",
+          disabled: true,
+        },
+        {
+          value: "02",
+          label: "Preparing",
+        },
+        {
+          value: "03",
+          label: "Delivering",
+        },
+        {
+          value: "04",
+          label: "Completed",
+          disabled: true,
+        },
+        {
+          value: "05",
+          label: "Cancel",
+        },
+      ];
+    case "03":
+      return [
+        {
+          value: "01",
+          label: "Pending",
+          disabled: true,
+        },
+        {
+          value: "02",
+          label: "Preparing",
+          disabled: true,
+        },
+        {
+          value: "03",
+          label: "Delivering",
+        },
+        {
+          value: "04",
+          label: "Completed",
+        },
+        {
+          value: "05",
+          label: "Cancel",
+        },
+      ];
+    case "04":
+      return [
+        {
+          value: "01",
+          label: "Pending",
+          disabled: true,
+        },
+        {
+          value: "02",
+          label: "Preparing",
+          disabled: true,
+        },
+        {
+          value: "03",
+          label: "Delivering",
+          disabled: true,
+        },
+        {
+          value: "04",
+          label: "Completed",
+        },
+        {
+          value: "05",
+          label: "Cancel",
+          disabled: true,
+        },
+      ];
+    case "05":
+      return [
+        {
+          value: "01",
+          label: "Pending",
+          disabled: true,
+        },
+        {
+          value: "02",
+          label: "Preparing",
+          disabled: true,
+        },
+        {
+          value: "03",
+          label: "Delivering",
+          disabled: true,
+        },
+        {
+          value: "04",
+          label: "Completed",
+          disabled: true,
+        },
+        {
+          value: "05",
+          label: "Cancel",
+        },
+      ];
+    default:
+      return [
+        {
+          value: "01",
+          label: "Pending",
+        },
+        {
+          value: "02",
+          label: "Preparing",
+        },
+        {
+          value: "03",
+          label: "Delivering",
+        },
+        {
+          value: "04",
+          label: "Completed",
+        },
+        {
+          value: "05",
+          label: "Cancel",
+        },
+      ];
+  }
+};
 
 export const enumPaymentStatus = [
   {

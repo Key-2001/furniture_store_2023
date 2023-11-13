@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { ConfigProvider, Modal, Select } from "antd";
 import { useCallback, useContext, useState } from "react";
-import { enumStatus } from "../../../../constants";
+import { enumStatusAdmin } from "../../../../constants";
 import { adminContext } from "../../../../context/AdminContext";
 import { useMutation } from "@tanstack/react-query";
 import { UpdateStatusAdminService } from "../../../../services/AdminService";
@@ -54,7 +54,7 @@ const ModalChangeStatus = (props) => {
       >
         <Select
           style={{ width: "50%" }}
-          options={enumStatus}
+          options={enumStatusAdmin(valueSelected)}
           value={valueSelected}
           onChange={handleChange}
           title="Status order"
