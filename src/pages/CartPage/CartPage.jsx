@@ -150,7 +150,11 @@ const CartPage = () => {
                     </button>
                   )}
                 </div>
-                <h5 className="subtotal">{formatCurrency(price * amount)}</h5>
+                <h5 className="subtotal">
+                  {formatCurrency(
+                    price * (amount <= maxAmount ? amount : maxAmount)
+                  )}
+                </h5>
                 <button
                   className="remove-btn"
                   onClick={() => handleRemoveBtn(id)}

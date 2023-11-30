@@ -31,6 +31,10 @@ const ProductsPage = () => {
       },
     }
   );
+  const [queryDebounce, setQueryDebounce] = useState({
+    name: query.name,
+    price: query.price,
+  });
   //! Function
   const handleChangeQuery = useCallback(
     (e) => {
@@ -55,11 +59,43 @@ const ProductsPage = () => {
         sort: getSortType(),
       };
     });
+    setQueryDebounce({
+      name: query.name,
+      price: query.price,
+    });
   }, []);
   //! Effect
   useEffect(() => {
     refetch && refetch();
   }, [query]);
+
+  useEffect(() => {
+    const idTimeout = setTimeout(() => {
+      if (queryDebounce.name !== query.name) {
+        setQuery((prev) => {
+          return {
+            ...prev,
+            name: queryDebounce.name,
+          };
+        });
+      }
+    }, 500);
+    return () => clearTimeout(idTimeout);
+  }, [queryDebounce.name]);
+
+  useEffect(() => {
+    const idTimeout = setTimeout(() => {
+      if (queryDebounce.price !== query.price) {
+        setQuery((prev) => {
+          return {
+            ...prev,
+            price: queryDebounce.price,
+          };
+        });
+      }
+    }, 500);
+    return () => clearTimeout(idTimeout);
+  }, [queryDebounce.price]);
   //! Render
   return (
     <Fragment>
@@ -76,6 +112,8 @@ const ProductsPage = () => {
           handleChangeQuery={handleChangeQuery}
           handleClearFilter={handleClearFilter}
           setQuery={setQuery}
+          queryDebounce={queryDebounce}
+          setQueryDebounce={setQueryDebounce}
         />
         <div>
           <SortProducts

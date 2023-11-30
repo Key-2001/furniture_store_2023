@@ -9,6 +9,7 @@ import "./OrderAccountDetail.scss";
 import { RollbackOutlined } from "@ant-design/icons";
 import { authContext } from "../../../context/AuthContext";
 import { formatCurrency } from "../../../utils";
+import { format } from "timeago.js";
 
 const OrderAccountDetail = () => {
   const { dispatch, token } = useContext(authContext);
@@ -63,6 +64,14 @@ const OrderAccountDetail = () => {
         ) : (
           <Fragment>
             <div style={{ display: "flex", flexWrap: "wrap" }}>
+              <Card.Grid style={{ width: "50%", textAlign: "left" }}>
+                <span style={{ fontWeight: 500 }}>Created date: </span>
+                {format(data.createdAt)}
+              </Card.Grid>
+              <Card.Grid style={{ width: "50%", textAlign: "left" }}>
+                <span style={{ fontWeight: 500 }}>Updated date: </span>
+                {format(data.updatedAt)}
+              </Card.Grid>
               <Card.Grid style={{ width: "33.33%", textAlign: "left" }}>
                 <span style={{ fontWeight: 500 }}>Email: </span>
                 {data.email}

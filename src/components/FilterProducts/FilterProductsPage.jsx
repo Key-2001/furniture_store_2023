@@ -3,41 +3,16 @@
 import { categoryList, colorsList, companyList } from "../../constants";
 import { BsCheck } from "react-icons/bs";
 import { formatCurrency } from "../../utils";
-import { useEffect, useState } from "react";
 
 const FilterProductsPage = (props) => {
   //! Props
-  const { query, handleChangeQuery, handleClearFilter, setQuery } = props;
+  const { query, handleChangeQuery, handleClearFilter, queryDebounce, setQueryDebounce } = props;
   //! State
-  const [queryDebounce, setQueryDebounce] = useState({
-    name: query.name,
-    price: query.price,
-  });
+  
   //! Function
 
   //! Effect
-  useEffect(() => {
-    const idTimeout = setTimeout(() => {
-      setQuery((prev) => {
-        return {
-          ...prev,
-          name: queryDebounce.name,
-        };
-      });
-    }, 500);
-    return () => clearTimeout(idTimeout);
-  }, [queryDebounce.name]);
-  useEffect(() => {
-    const idTimeout = setTimeout(() => {
-      setQuery((prev) => {
-        return {
-          ...prev,
-          price: queryDebounce.price,
-        };
-      });
-    }, 500);
-    return () => clearTimeout(idTimeout);
-  }, [queryDebounce.price]);
+  
   //! Render
   return (
     <div className="classify-options">

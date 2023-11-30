@@ -168,6 +168,7 @@ const ProductDetailPage = () => {
                   </div>
                 )}
                 <div className="btn-cart-container">
+                {stockCurrent?.amount > 0 && 
                   <div className="amounts-btn">
                     {amountProduct === 1 ? (
                       <button
@@ -207,12 +208,14 @@ const ProductDetailPage = () => {
                       </button>
                     )}
                   </div>
+                }
                   {/* <Link to='/cart' className='btn' onClick={() => handleAddCartItem(cartItem)}>add to cart</Link> */}
                   <button
-                    className="btn"
+                    className={`btn ${stockCurrent?.amount === 0 && 'disabled'}`}
                     onClick={() => handleClickAddCartItem()}
+                    disabled={stockCurrent?.amount === 0}
                   >
-                    add to cart
+                  {stockCurrent?.amount === 0 ? 'out of stock' : 'add to cart'}
                   </button>
                 </div>
               </section>

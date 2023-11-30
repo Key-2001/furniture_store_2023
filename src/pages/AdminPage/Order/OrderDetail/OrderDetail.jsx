@@ -82,7 +82,7 @@ const OrderDetail = () => {
               >
                 <p style={{ fontSize: "16px" }}>Order detail</p>
                 <p style={{ color: "#dedede", fontWeight: "400" }}>
-                  Created date: {format(data.createdDate)}
+                  Created date: {format(data.createdAt)}
                 </p>
               </Flex>
             }

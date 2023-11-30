@@ -131,8 +131,8 @@ const OrderList = (props) => {
   const columns = [
     {
       title: "Created date",
-      dataIndex: "createdDate",
-      render: (_) => format(_),
+      dataIndex: "createdAt",
+      render: (_) =>  format(_),
     },
     {
       title: "Email",
@@ -199,6 +199,7 @@ const OrderList = (props) => {
     {
       title: "Action",
       dataIndex: "action",
+      align: 'center',
       render: (_, order) => {
         return (
           <Flex align={"center"} justify="center">

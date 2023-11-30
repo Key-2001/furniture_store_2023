@@ -126,8 +126,8 @@ const UserList = (props) => {
   const columns = [
     {
       title: "Created date",
-      dataIndex: "createdDate",
-      render: (_) => format(_),
+      dataIndex: "createdAt",
+      render: (_) => new Date(_).toISOString().split('T')[0],
     },
     {
       title: "Email",

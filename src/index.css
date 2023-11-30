@@ -544,6 +544,11 @@ footer h5 span {
   border: none;
   border-radius: var(--radius);
 }
+
+.btn.disabled{
+  cursor: no-drop;
+  opacity: .5;
+}
 .btn-product:hover {
   color: var(--clr-primary-1);
   background-color: var(--clr-primary-7);
