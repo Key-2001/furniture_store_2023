@@ -161,9 +161,9 @@ const Routers = () => {
       <Route
         path="/admin/login"
         element={
-          <Layout>
+          // <Layout>
             <LoginAdmin />
-          </Layout>
+          // </Layout>
         }
       />
       <Route
